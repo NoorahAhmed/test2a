@@ -1,6 +1,11 @@
 package nl.multicode;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Application {
+
+  private static final Logger log = LogManager.getLogger(Application.class);
 
 
   public static final int[] BSN = new int[]{9, 8, 7, 6, 5, 4, 3, 2, -1};
@@ -8,12 +13,12 @@ public class Application {
 
   public static void main(String[] args) {
 
-    if (args[0] != null && args[1] != null && args[2] != null && (args[2].length() == 9 || args[2].length() == 10)) {
-      if ("validate".equals(args[0])) {
+    if (args[0] != null && args[1] != null) {
+      if ("validate".equals(args[0]) && args[2] != null && (args[2].length() == 9 || args[2].length() == 10)) {
         if (validate(args)) {
-          System.out.println(args[2] + " is a valid " + args[1]);
+          log.info(args[2] + " is a valid " + args[1]);
         } else {
-          System.out.println(args[2] + " is an invalid " + args[1]);
+          log.info(args[2] + " is an invalid " + args[1]);
         }
       } else if ("generate".equals(args[0])) {
         if ("bsn".equals(args[1])) {
@@ -26,7 +31,7 @@ public class Application {
             }
             String randomNumber = n;
             if (validate(new String[]{"validate", "bsn", randomNumber})) {
-              System.out.println("generated :" + randomNumber);
+              log.info("generated :" + randomNumber);
               break;
             }
           }
@@ -40,7 +45,7 @@ public class Application {
             }
             String randomNumber = n;
             if (validate(new String[]{"validate", "bank", randomNumber})) {
-              System.out.println("generated :" + randomNumber);
+              log.info("generated :" + randomNumber);
               break;
             }
           }
