@@ -4,37 +4,70 @@ public class Application {
 
 
   public static final int[] BSN = new int[]{9, 8, 7, 6, 5, 4, 3, 2, -1};
-  public static final int[] BANKACCOUNT = new int[]{10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+  public static final int[] BA = new int[]{10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 
   public static void main(String[] args) {
 
-    int j = 0;
-    String t = null;
-    int[] m;
-    if (args[0] != null && args[1] != null && (args[1].length() == 9 || args[1].length() == 10)) {
-      if ("bsn".equals(args[0]) && args[1].length() == 9) {
-        j = 9;
-        m = BSN;
-        t = "bsn";
-      } else if ("bank".equals(args[0]) && args[1].length() == 10) {
-        j = 10;
-        m = BANKACCOUNT;
-        t = "bank account";
-      } else {
-        throw new IllegalArgumentException("wrong proof type");
-      }
+    if (args[0] != null && args[1] != null && args[2] != null && (args[2].length() == 9 || args[2].length() == 10)) {
+      if ("validate".equals(args[0])) {
+        if (validate(args)) {
+          System.out.println(args[2] + " is a valid " + args[1]);
+        } else {
+          System.out.println(args[2] + " is an invalid " + args[1]);
+        }
+      } else if ("generate".equals(args[0])) {
+        if ("bsn".equals(args[1])) {
+          int l = 9;
+          while (true) {
 
-      int sum = 0;
-      for (int i = 0; i < j; i++) {
-        sum += Character.getNumericValue(args[1].toCharArray()[i]) * m[i];
+            String n = "";
+            for (int i = 0; i < l; i++) {
+              n += (int) Math.floor(Math.random() * (9 - 0 + 1) + 0);
+            }
+            String randomNumber = n;
+            if (validate(new String[]{"validate", "bsn", randomNumber})) {
+              System.out.println("generated :" + randomNumber);
+              break;
+            }
+          }
+        } else if ("bank".equals(args[1])) {
+          int l = 10;
+          while (true) {
+
+            String n = "";
+            for (int i = 0; i < l; i++) {
+              n += (int) Math.floor(Math.random() * (9 - 0 + 1) + 0);
+            }
+            String randomNumber = n;
+            if (validate(new String[]{"validate", "bank", randomNumber})) {
+              System.out.println("generated :" + randomNumber);
+              break;
+            }
+          }
+        }
       }
-      if (sum % 11 == 0) {
-        System.out.println(args[1] + " is a valid " + t);
-      } else {
-        System.out.println(args[1] + " is an invalid " + t);
-      }
-      return;
     }
-    System.out.println(args[1] + " is an invalid " + t);
+  }
+
+  private static boolean validate(String[] args) {
+
+    int[] m;
+    String t;
+    int j;
+    if ("bsn".equals(args[1]) && args[2].length() == 9) {
+      j = 9;
+      m = BSN;
+    } else if ("bank".equals(args[1]) && args[2].length() == 10) {
+      j = 10;
+      m = BA;
+    } else {
+      return false;
+    }
+
+    int sum = 0;
+    for (int i = 0; i < j; i++) {
+      sum += Character.getNumericValue(args[2].toCharArray()[i]) * m[i];
+    }
+    return (sum % 11 == 0);
   }
 }
