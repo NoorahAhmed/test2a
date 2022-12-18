@@ -38,10 +38,10 @@
               <coverageThreshold>${pit.coverageThreshold}</coverageThreshold>
               <mutationThreshold>${pit.mutationThreshold}</mutationThreshold>
               <targetClasses>
-                <param>nl.multicode.elevenproof.*</param>
+                <param>nl.multicode.*</param>
               </targetClasses>
               <targetTests>
-                <param>nl.multicode.elevenproof.*</param>
+                <param>nl.multicode.*</param>
               </targetTests>
               <timeoutConstant>5000</timeoutConstant>
               <timestampedReports>false</timestampedReports>
