@@ -52,8 +52,7 @@ public class Application {
 
     private static boolean validate(String[] args) {
 
-        int[] Making bad code even worsem;
-        String t;
+        int[] m;
         int j;
         if ("bsn".equals(args[1]) && args[2].length() == 9) {
             j = 9;
