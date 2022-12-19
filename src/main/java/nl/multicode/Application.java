@@ -3,71 +3,29 @@ package nl.multicode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static nl.multicode.generate.ElevenProofNumberGenerator.generate;
+import static nl.multicode.validate.ArgumentsValidator.*;
+import static nl.multicode.validate.ElevenProofValidator.validate;
+
 public class Application {
 
     private static final Logger log = LogManager.getLogger(Application.class);
 
     public static void main(String[] args) {
+        // three possible arguments coming in!
+        // "validate", "bsn", "218996755"
+        // 1)command 2)type 3)number
+        final var commandArgument = args[0];
+        final var typeArgument = args[1];
 
-        if (args[0] != null && args[1] != null) {
-            if ("validate".equals(args[0]) && args[2] != null && (args[2].length() == 9 || args[2].length() == 10)) {
-                if (validate(args)) {
-                    log.info(args[2] + " is a valid " + args[1]);
-                } else {
-                    log.info(args[2] + " is an invalid " + args[1]);
-                }
-            } else if ("generate".equals(args[0])) {
-                if ("bsn".equals(args[1])) {
-                    int l = 9;
-                    while (true) {
-
-                        String n = "";
-                        for (int i = 0; i < l; i++) {
-                            n += (int) Math.floor(Math.random() * (9 - 0 + 1) + 0);
-                        }
-                        String randomNumber = n;
-                        if (validate(new String[]{"validate", "bsn", randomNumber})) {
-                            log.info("generated :" + randomNumber);
-                            break;
-                        }
-                    }
-                } else if ("bank".equals(args[1])) {
-                    int l = 10;
-                    while (true) {
-
-                        String n = "";
-                        for (int i = 0; i < l; i++) {
-                            n += (int) Math.floor(Math.random() * (9 - 0 + 1) + 0);
-                        }
-                        String randomNumber = n;
-                        if (validate(new String[]{"validate", "bank", randomNumber})) {
-                            log.info("generated :" + randomNumber);
-                            break;
-                        }
-                    }
-                }
+        if (hasMinimalNumberOfArguments(commandArgument, typeArgument)) {
+            if (isValidationACommandArgument(commandArgument) && isValidValidationArguments(commandArgument, args[2])) {
+                validate(args, typeArgument, args[2]);
+            } else if ("generate".equals(commandArgument)) {
+                generate(typeArgument);
             }
         }
     }
 
-    private static boolean validate(String[] args) {
 
-        int[] m;
-        int j;
-        if ("bsn".equals(args[1]) && args[2].length() == 9) {
-            j = 9;
-            m = new int[]{9, 8, 7, 6, 5, 4, 3, 2, -1};
-        } else if ("bank".equals(args[1]) && args[2].length() == 10) {
-            j = 10;
-            m = new int[]{10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-        } else {
-            return false;
-        }
-
-        int sum = 0;
-        for (int i = 0; i < j; i++) {
-            sum += Character.getNumericValue(args[2].toCharArray()[i]) * m[i];
-        }
-        return (sum % 11 == 0);
-    }
 }
