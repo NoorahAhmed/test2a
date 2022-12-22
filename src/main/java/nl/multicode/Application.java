@@ -4,7 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static nl.multicode.generate.ElevenProofNumberGenerator.generate;
-import static nl.multicode.validate.ArgumentsValidator.*;
+import static nl.multicode.validate.ArgumentsValidator.hasMinimalNumberOfArguments;
+import static nl.multicode.validate.ArgumentsValidator.isValidValidationArguments;
+import static nl.multicode.validate.ArgumentsValidator.isValidationACommandArgument;
 import static nl.multicode.validate.ElevenProofValidator.validate;
 
 public class Application {
@@ -26,6 +28,4 @@ public class Application {
             }
         }
     }
-
-
 }
