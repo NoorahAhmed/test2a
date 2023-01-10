@@ -34,9 +34,9 @@ public class Application {
                 }
 
                 if (result) {
-                    log.info(args[2] + " is a valid " + args[1]);
+                    log.info("{} is a valid {}", args[2], args[1]);
                 } else {
-                    log.info(args[2] + " is an invalid " + args[1]);
+                    log.info("{} is an invalid {}", args[2], args[1]);
                 }
             } else if ("generate".equals(args[0])) {
                 if ("bsn".equals(args[1])) {
@@ -72,7 +72,7 @@ public class Application {
                         }
 
                         if (result) {
-                            log.info("generated :" + randomNumber);
+                            log.info("generated :{}", randomNumber);
                             break;
                         }
                     }
@@ -109,7 +109,7 @@ public class Application {
                         }
 
                         if (result) {
-                            log.info("generated :" + randomNumber);
+                            log.info("generated :{}", randomNumber);
                             break;
                         }
                     }
@@ -117,5 +117,4 @@ public class Application {
             }
         }
     }
-
 }
