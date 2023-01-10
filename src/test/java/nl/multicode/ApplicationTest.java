@@ -25,21 +25,25 @@ class ApplicationTest {
 
     @Test
     void combine() {
-        new Application().execute("combine", "Dirty", "Code");
+
+        final var result = new Application().execute("combine", "Dirty", "Code");
+        assertThat(result).isEqualTo("DirtyCode");
         assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("Combined firstArgument 'Dirty' and secondArgument 'Code' and resulted in 'DirtyCode'");
     }
 
     @Test
     void combineToUppercase() {
-        new Application().execute("combineToUppercase", "Dirty", "Code");
 
+        final var result = new Application().execute("combineToUppercase", "Dirty", "Code");
+        assertThat(result).isEqualTo("DIRTY_CODE");
         assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("Combined to uppercase firstArgument 'Dirty' and secondArgument 'Code' resulted in 'DIRTY_CODE'");
     }
 
     @Test
     void unknownCommand() {
-        new Application().execute("unknown", "Dirty", "Code");
 
+        final var result = new Application().execute("unknown", "Dirty", "Code");
+        assertThat(result).isNull();
         assertThat(TestAppender.getLogs(Level.INFO)).isEmpty();
     }
 }
