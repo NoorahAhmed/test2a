@@ -7,13 +7,6 @@ public class Application {
 
     private static final Logger log = LogManager.getLogger(Application.class);
 
-    public static void main(String[] args) {
-
-        new Application().execute("combine", "dirty", "Code");
-        new Application().execute("combineToUppercase", "dirty", "Code");
-        new Application().execute("combineToUppercase", null, "Code");
-    }
-
     public String execute(String command, String firstArgument, String secondArgument) {
 
         if (command != null && command.equals("combine")) {

@@ -1,62 +1,45 @@
 package nl.multicode;
 
 
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import nl.multicode.util.TestAppender;
 import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class ApplicationTest {
 
-  @BeforeEach
-  public void setup() {
+    @BeforeEach
+    public void setup() {
 
-    TestAppender.clear();
-  }
+        TestAppender.clear();
+    }
 
-  @AfterEach
-  public void tearDown() {
+    @AfterEach
+    public void tearDown() {
 
-    TestAppender.clear();
-  }
+        TestAppender.clear();
+    }
 
-  @Test
-  void main_valid_bsn() {
-    Application.main(new String[]{"validate", "bsn", "218996755"});
-    assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("218996755 is a valid bsn");
-  }
+    @Test
+    void combine() {
+        new Application().execute("combine", "Dirty", "Code");
+        assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("Combined firstArgument 'Dirty' and secondArgument 'Code' and resulted in 'DirtyCode'");
+    }
 
-  @Test
-  void main_valid_bank() {
-    Application.main(new String[]{"validate", "bank", "1015008577"});
-    assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("1015008577 is a valid bank");
-  }
+    @Test
+    void combineToUppercase() {
+        new Application().execute("combineToUppercase", "Dirty", "Code");
 
-  @Test
-  void main_invalid_bsn() {
-    Application.main(new String[]{"validate", "bsn", "228996755"});
-    assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("228996755 is an invalid bsn");
-  }
+        assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("Combined to uppercase firstArgument 'Dirty' and secondArgument 'Code' resulted in 'DIRTY_CODE'");
+    }
 
-  @Test
-  void main_invalid_bank() {
-    Application.main(new String[]{"validate", "bank", "1115008577"});
-    assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("1115008577 is an invalid bank");
-  }
+    @Test
+    void unknownCommand() {
+        new Application().execute("unknown", "Dirty", "Code");
 
-  @Test
-  void main_generate_bsn() {
-    Application.main(new String[]{"generate", "bsn"});
-    assertThat(TestAppender.getLogs(Level.INFO).get(0).matches("^\\bgenerated :\\d{9}$")).isTrue();
-  }  @Test
-  void main_generate_bank() {
-    Application.main(new String[]{"generate", "bank"});
-    assertThat(TestAppender.getLogs(Level.INFO).get(0).matches("^\\bgenerated :\\d{10}$")).isTrue();
-  }
+        assertThat(TestAppender.getLogs(Level.INFO)).isEmpty();
+    }
 }
