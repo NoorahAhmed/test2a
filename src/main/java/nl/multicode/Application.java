@@ -11,13 +11,15 @@ public class Application {
 
         if (command != null && command.equals("combine")) {
             if (firstArgument != null && secondArgument != null) {
-                log.info("Combined firstArgument '{}' and secondArgument '{}' and resulted in '{}'", firstArgument, secondArgument, firstArgument + secondArgument);
+                log.info("Combined firstArgument '{}' and secondArgument '{}' and resulted in '{}'",
+                    firstArgument, secondArgument, firstArgument + secondArgument);
                 return firstArgument + secondArgument;
             }
         } else if (command != null && command.equals("combineToUppercase")) {
             if (firstArgument != null && secondArgument != null) {
                 final var combinedToUppercase = firstArgument.toUpperCase() + "_" + secondArgument.toUpperCase();
-                log.info("Combined to uppercase firstArgument '{}' and secondArgument '{}' resulted in '{}'", firstArgument, secondArgument, combinedToUppercase);
+                log.info("Combined to uppercase firstArgument '{}' and secondArgument '{}' resulted in '{}'",
+                    firstArgument, secondArgument, combinedToUppercase);
                 return combinedToUppercase;
             }
         }
