@@ -2,6 +2,7 @@ package nl.multicode;
 
 
 import nl.multicode.util.TestAppender;
+import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,12 @@ class ApplicationTest {
     public void tearDown() {
 
         TestAppender.clear();
+    }
+
+    @Test
+    void logging() {
+        application.getAnimalSound("unknown");
+        assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting sound of unknown");
     }
 
     @Test
