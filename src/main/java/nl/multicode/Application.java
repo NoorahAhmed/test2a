@@ -7,22 +7,26 @@ public class Application {
 
     private static final Logger log = LogManager.getLogger(Application.class);
 
-    public String execute(String command, String firstArgument, String secondArgument) {
-
-        if (command != null && command.equals("combine")) {
-            if (firstArgument != null && secondArgument != null) {
-                log.info("Combined firstArgument '{}' and secondArgument '{}' and resulted in '{}'",
-                    firstArgument, secondArgument, firstArgument + secondArgument);
-                return firstArgument + secondArgument;
-            }
-        } else if (command != null && command.equals("combineToUppercase")) {
-            if (firstArgument != null && secondArgument != null) {
-                final var combinedToUppercase = firstArgument.toUpperCase() + "_" + secondArgument.toUpperCase();
-                log.info("Combined to uppercase firstArgument '{}' and secondArgument '{}' resulted in '{}'",
-                    firstArgument, secondArgument, combinedToUppercase);
-                return combinedToUppercase;
-            }
+    public String getAnimalSound(String animal) {
+        log.info("requesting sound of {}", animal);
+        if (animal == null) return "null animal argument is not allowed!";
+        switch (animal) {
+            case "cat":
+                return "meow";
+            case "dog":
+                return "bark";
+            case "cow":
+                return "moo";
+            case "dolphin":
+                return "click";
+            case "dove":
+                return "coo";
+            case "hyena":
+                return "laugh";
+            case "chicken":
+                return "cackle";
+            default:
+                return "unknown";
         }
-        return null;
     }
 }

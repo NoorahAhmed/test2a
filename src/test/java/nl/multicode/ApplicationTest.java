@@ -2,7 +2,6 @@ package nl.multicode;
 
 
 import nl.multicode.util.TestAppender;
-import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,9 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest {
 
+    private Application application;
+
     @BeforeEach
     public void setup() {
-
+        application = new Application();
         TestAppender.clear();
     }
 
@@ -24,26 +25,42 @@ class ApplicationTest {
     }
 
     @Test
-    void combine() {
-
-        final var result = new Application().execute("combine", "Dirty", "Code");
-        assertThat(result).isEqualTo("DirtyCode");
-        assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("Combined firstArgument 'Dirty' and secondArgument 'Code' and resulted in 'DirtyCode'");
+    void cat() {
+        assertThat(application.getAnimalSound("cat")).isEqualTo("meow");
     }
 
     @Test
-    void combineToUppercase() {
-
-        final var result = new Application().execute("combineToUppercase", "Dirty", "Code");
-        assertThat(result).isEqualTo("DIRTY_CODE");
-        assertThat(TestAppender.getLogs(Level.INFO).get(0)).contains("Combined to uppercase firstArgument 'Dirty' and secondArgument 'Code' resulted in 'DIRTY_CODE'");
+    void dog() {
+        assertThat(application.getAnimalSound("dog")).isEqualTo("bark");
     }
 
     @Test
-    void unknownCommand() {
+    void dolphin() {
+        assertThat(application.getAnimalSound("dolphin")).isEqualTo("click");
+    }
 
-        final var result = new Application().execute("unknown", "Dirty", "Code");
-        assertThat(result).isNull();
-        assertThat(TestAppender.getLogs(Level.INFO)).isEmpty();
+    @Test
+    void cow() {
+        assertThat(application.getAnimalSound("cow")).isEqualTo("moo");
+    }
+
+    @Test
+    void hyena() {
+        assertThat(application.getAnimalSound("hyena")).isEqualTo("laugh");
+    }
+
+    @Test
+    void dove() {
+        assertThat(application.getAnimalSound("dove")).isEqualTo("coo");
+    }
+
+    @Test
+    void chicken() {
+        assertThat(application.getAnimalSound("chicken")).isEqualTo("cackle");
+    }
+
+    @Test
+    void unknown() {
+        assertThat(application.getAnimalSound("something")).isEqualTo("unknown");
     }
 }
