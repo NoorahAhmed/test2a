@@ -15,6 +15,7 @@ class ApplicationTest {
 
     @BeforeEach
     public void setup() {
+
         application = new Application();
         TestAppender.clear();
     }
@@ -27,47 +28,56 @@ class ApplicationTest {
 
     @Test
     void logging() {
+
         application.getAnimalSound("unknown");
         assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting sound of unknown");
     }
 
     @Test
     void cat() {
+
         assertThat(application.getAnimalSound("cat")).isEqualTo("meow");
     }
 
     @Test
     void dog() {
+
         assertThat(application.getAnimalSound("dog")).isEqualTo("bark");
     }
 
     @Test
     void dolphin() {
+
         assertThat(application.getAnimalSound("dolphin")).isEqualTo("click");
     }
 
     @Test
     void cow() {
+
         assertThat(application.getAnimalSound("cow")).isEqualTo("moo");
     }
 
     @Test
     void hyena() {
+
         assertThat(application.getAnimalSound("hyena")).isEqualTo("laugh");
     }
 
     @Test
     void dove() {
+
         assertThat(application.getAnimalSound("dove")).isEqualTo("coo");
     }
 
     @Test
     void chicken() {
+
         assertThat(application.getAnimalSound("chicken")).isEqualTo("cackle");
     }
 
     @Test
     void unknown() {
+
         assertThat(application.getAnimalSound("something")).isEqualTo("unknown");
     }
 }

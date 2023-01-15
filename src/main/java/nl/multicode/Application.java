@@ -8,6 +8,7 @@ public class Application {
     private static final Logger log = LogManager.getLogger(Application.class);
 
     public String getAnimalSound(String animal) {
+
         log.info("requesting sound of {}", animal);
         if (animal == null) return "null animal argument is not allowed!";
         switch (animal) {
