@@ -9,6 +9,6 @@ class PersonTest {
 
     @Test
     void testToString() {
-       assertThat( new Person("Dude", 15).toString()).isEqualTo("User: [name: [Dude], age: [15]]");
+       assertThat( new Person("Dude", 15).toString()).hasToString("User: [name: [Dude], age: [15]]");
     }
 }
