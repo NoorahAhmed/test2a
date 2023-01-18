@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Application {
@@ -13,16 +14,15 @@ public class Application {
 
     public List<Person> getFilteredPersons(List<Person> people, int minimalAgeLimit, String nameSubstring, int numberOfChildren) {
 
-        log.info("Users ti filter");
+        log.info("Users ti filter {}", Arrays.toString(people.toArray()));
 
-        if (people != null && people.size() > 0) {
+        if (people != null && !people.isEmpty()) {
             List<Person> newPeople = new ArrayList<>();
             for (Person person : people) {
                 if (person.getAge() >= minimalAgeLimit &&
                         person.getName() != null &&
                         person.getName().toLowerCase().contains(nameSubstring.toLowerCase()) &&
                         person.getChildren().size() == numberOfChildren) {
-
                     newPeople.add(person);
                 }
             }
