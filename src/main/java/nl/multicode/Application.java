@@ -16,9 +16,8 @@ public class Application {
         if (people != null) {
             log.info("Users ti filter {}", Arrays.toString(people.toArray()));
 
-
             return people.stream()
-                    .filter(p -> p.getAge() > minimalAgeLimit)
+                    .filter(p -> p.getAge() >= minimalAgeLimit)
                     .filter(p -> p.getName() != null)
                     .filter(p -> p.getName().toLowerCase().contains(nameSubstring.toLowerCase()))
                     .filter(p -> p.getChildren().size() == numberOfChildren)
