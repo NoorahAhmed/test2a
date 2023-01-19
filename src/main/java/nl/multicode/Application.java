@@ -10,7 +10,7 @@ public class Application {
     private static final Logger log = LogManager.getLogger(Application.class);
 
     public static void main(String[] args) {
-        if (args != null && args.length > 0) {
+        if (args != null) {
             new Application()
                 .getAnimalSound(AnimalEnum.animalFromValue(args[0]));
         }

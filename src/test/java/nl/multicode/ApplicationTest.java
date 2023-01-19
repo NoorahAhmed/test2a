@@ -3,13 +3,6 @@ package nl.multicode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import nl.multicode.model.Animal;
-import nl.multicode.model.Cat;
-import nl.multicode.model.Chicken;
-import nl.multicode.model.Cow;
-import nl.multicode.model.Dog;
-import nl.multicode.model.Dolphin;
-import nl.multicode.model.Dove;
-import nl.multicode.model.Hyena;
 import nl.multicode.util.TestAppender;
 import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterEach;
@@ -34,69 +27,51 @@ class ApplicationTest {
     }
 
     @Test
-    void catTest_RequestedBy_Borko() {
+    void test_empty_name() {
+
+        assertThat(application.getAnimalSound(null)).isEqualTo("null animal argument is not allowed!");
+    }
+
+    @Test
+    void test_empty_argument() {
+
+        Application.main(null);
+        assertThat(TestAppender.count()).isEqualTo(0);
+    }
+
+    @Test
+    void test_valid_argument() {
+
         Application.main(new String[]{"cat"});
         assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting sound of cat");
     }
 
     @Test
-    void cat() {
-        assertThat(application.getAnimalSound(new Cat())).isEqualTo("meow");
-    }
-
-    @Test
-    void dog() {
-
-        assertThat(application.getAnimalSound(new Dog())).isEqualTo("bark");
-    }
-
-    @Test
-    void dolphin() {
-
-        assertThat(application.getAnimalSound(new Dolphin())).isEqualTo("click");
-    }
-
-    @Test
-    void cow() {
-
-        assertThat(application.getAnimalSound(new Cow())).isEqualTo("moo");
-    }
-
-    @Test
-    void hyena() {
-
-        assertThat(application.getAnimalSound(new Hyena())).isEqualTo("laugh");
-    }
-
-    @Test
-    void dove() {
-
-        assertThat(application.getAnimalSound(new Dove())).isEqualTo("coo");
-    }
-
-    @Test
-    void chicken() {
-
-        assertThat(application.getAnimalSound(new Chicken())).isEqualTo("cackle");
-    }
-
-    @Test
     void logging() {
+        final var unknownName = "unknown";
+        final var unknownSound = "unknownSound";
+        final Animal animal = getAnimal(unknownName, unknownSound);
 
-        Animal animal = new Animal() {
+        final var animalSound = application.getAnimalSound(animal);
+        assertThat(animalSound).isEqualTo(unknownSound);
+        assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting sound of unknown");
+    }
+
+    private static Animal getAnimal(String unknownName, String unknownSound) {
+
+        final var animal = new Animal() {
             @Override
             public String getName() {
 
-                return "unknown";
+                return unknownName;
             }
 
             @Override
             public String getSound() {
 
-                return "unknown";
+                return unknownSound;
             }
         };
-        application.getAnimalSound(animal);
-        assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting sound of unknown");
+        return animal;
     }
 }
