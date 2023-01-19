@@ -18,15 +18,14 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <mockito-core.version>4.8.0</mockito-core.version>
         <pit.coverageThreshold>75</pit.coverageThreshold>
         <pit.mutationThreshold>75</pit.mutationThreshold>
         <pitest-junit5-plugin.version>1.1.0</pitest-junit5-plugin.version>
         <pitest-maven.version>1.9.8</pitest-maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.8.0</kotlin.version>
 
         <!-- JaCoCo Properties -->
         <jacoco.version>0.8.6</jacoco.version>
@@ -38,6 +37,7 @@
         </sonar.host.url>
         <sonar.login>sayf</sonar.login>
         <sonar.password>password</sonar.password>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
     </properties>
 
@@ -102,18 +102,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -172,30 +161,6 @@
                 </executions>
                 <groupId>org.pitest</groupId>
                 <version>${pitest-maven.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jvmTarget>${maven.compiler.target}</jvmTarget>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
