@@ -1,5 +1,7 @@
 package nl.multicode;
 
+import static nl.multicode.EnglishToOtherTranslator.DUTCH;
+import static nl.multicode.EnglishToOtherTranslator.SWEDISH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import nl.multicode.util.TestAppender;
@@ -7,15 +9,17 @@ import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class ApplicationTest {
 
-    private Application application;
+    private EnglishToOtherTranslator englishToOtherTranslator;
 
     @BeforeEach
     public void setup() {
 
-        application = new Application();
+        englishToOtherTranslator = new EnglishToOtherTranslator();
         TestAppender.clear();
     }
 
@@ -28,63 +32,29 @@ class ApplicationTest {
     @Test
     void null_input() {
 
-        application.getAnimalSound(null);
-        assertThat(application.getAnimalSound(null)).isEqualTo("null animal argument is not allowed!");
+        assertThat(englishToOtherTranslator.getTranslationFor(null, null))
+            .isEqualTo("null word or language arguments are not allowed!");
         assertThat(TestAppender.count()).isZero();
     }
 
     @Test
     void logging() {
 
-        application.getAnimalSound("unknown");
-        assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting sound of unknown");
+        englishToOtherTranslator.getTranslationFor("unknown", DUTCH);
+        assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting translation of unknown to dutch");
     }
 
-    @Test
-    void cat() {
+    @ParameterizedTest
+    @CsvSource({"hello,hallo", "cake,taart", "street,straat", "bye,doei"})
+    void dutch(String word, String translation) {
 
-        assertThat(application.getAnimalSound("cat")).isEqualTo("meow");
+        assertThat(englishToOtherTranslator.getTranslationFor(word, DUTCH)).isEqualTo(translation);
     }
 
-    @Test
-    void dog() {
+    @ParameterizedTest
+    @CsvSource({"hello,hallå", "cake,kaka", "street,gata", "bye,hejdå"})
+    void swedish(String word, String translation) {
 
-        assertThat(application.getAnimalSound("dog")).isEqualTo("bark");
-    }
-
-    @Test
-    void dolphin() {
-
-        assertThat(application.getAnimalSound("dolphin")).isEqualTo("click");
-    }
-
-    @Test
-    void cow() {
-
-        assertThat(application.getAnimalSound("cow")).isEqualTo("moo");
-    }
-
-    @Test
-    void hyena() {
-
-        assertThat(application.getAnimalSound("hyena")).isEqualTo("laugh");
-    }
-
-    @Test
-    void dove() {
-
-        assertThat(application.getAnimalSound("dove")).isEqualTo("coo");
-    }
-
-    @Test
-    void chicken() {
-
-        assertThat(application.getAnimalSound("chicken")).isEqualTo("cackle");
-    }
-
-    @Test
-    void unknown() {
-
-        assertThat(application.getAnimalSound("something")).isEqualTo("unknown");
+        assertThat(englishToOtherTranslator.getTranslationFor(word, SWEDISH)).isEqualTo(translation);
     }
 }
