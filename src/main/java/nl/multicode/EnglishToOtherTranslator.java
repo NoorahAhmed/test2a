@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 public class EnglishToOtherTranslator {
 
     private static final Logger log = LogManager.getLogger(EnglishToOtherTranslator.class);
-    public static final String UNKNOWN_LANGUAGE = "unknown language";
     public static final String DUTCH = "dutch";
     public static final String SWEDISH = "swedish";
 
