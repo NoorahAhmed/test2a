@@ -53,7 +53,7 @@ class ApplicationTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"hello", "hi", "welcom", "bye", "bla"})
+    @CsvSource({"hello", "hi", "welcome", "bye", "bla"})
     void unknownLanguage(String word) {
 
         assertThat(englishToOtherTranslator.getTranslationFor(word, SWAHILI))
