@@ -1,9 +1,5 @@
 package nl.multicode;
 
-import static nl.multicode.EnglishToOtherTranslator.DUTCH;
-import static nl.multicode.EnglishToOtherTranslator.SWEDISH;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import nl.multicode.util.TestAppender;
 import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterEach;
@@ -12,8 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static nl.multicode.EnglishToOtherTranslator.DUTCH;
+import static nl.multicode.EnglishToOtherTranslator.SWEDISH;
+import static org.assertj.core.api.Assertions.assertThat;
+
 class ApplicationTest {
 
+    public static final String SWAHILI = "swahili";
     private EnglishToOtherTranslator englishToOtherTranslator;
 
     @BeforeEach
@@ -33,7 +34,7 @@ class ApplicationTest {
     void null_input() {
 
         assertThat(englishToOtherTranslator.getTranslationFor(null, null))
-            .isEqualTo("null word or language arguments are not allowed!");
+                .isEqualTo("null word or language arguments are not allowed!");
         assertThat(TestAppender.count()).isZero();
     }
 
@@ -45,16 +46,24 @@ class ApplicationTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"hello,hallo", "cake,taart", "street,straat", "bye,doei"})
+    @CsvSource({"hello,hallo", "hi,hi", "welcome,welkom", "bye,doei"})
     void dutch(String word, String translation) {
 
         assertThat(englishToOtherTranslator.getTranslationFor(word, DUTCH)).isEqualTo(translation);
     }
 
     @ParameterizedTest
-    @CsvSource({"hello,hallå", "cake,kaka", "street,gata", "bye,hejdå"})
+    @CsvSource({"hello,hallå", "hi,hej", "welcome,välkommen", "bye,hejdå"})
     void swedish(String word, String translation) {
 
         assertThat(englishToOtherTranslator.getTranslationFor(word, SWEDISH)).isEqualTo(translation);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"hello", "hi", "welcom", "bye", "bla"})
+    void unknownLanguage(String word) {
+
+        assertThat(englishToOtherTranslator.getTranslationFor(word, SWAHILI))
+                .isEqualTo("unknown translation for word '" + word + "'");
     }
 }

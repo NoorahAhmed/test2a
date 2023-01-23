@@ -21,29 +21,29 @@ public class EnglishToOtherTranslator {
             case "hello":
                 if (DUTCH.equals(toLanguage)) {
                     return "hallo";
-                } else if (toLanguage.equals(SWEDISH)) {
+                } else if (SWEDISH.equals(toLanguage)) {
                     return "hallå";
                 }
                 return unknowTranslationMessage(theWord);
             case "bye":
                 if (DUTCH.equals(toLanguage)) {
                     return "doei";
-                } else if (toLanguage.equals(SWEDISH)) {
+                } else if (SWEDISH.equals(toLanguage)) {
                     return "hejdå";
                 }
                 return unknowTranslationMessage(theWord);
-            case "cake":
+            case "hi":
                 if (DUTCH.equals(toLanguage)) {
-                    return "taart";
-                } else if (toLanguage.equals(SWEDISH)) {
-                    return "kaka";
+                    return "hi";
+                } else if (SWEDISH.equals(toLanguage)) {
+                    return "hej";
                 }
                 return unknowTranslationMessage(theWord);
-            case "street":
+            case "welcome":
                 if (DUTCH.equals(toLanguage)) {
-                    return "straat";
-                } else if (toLanguage.equals(SWEDISH)) {
-                    return "gata";
+                    return "welkom";
+                } else if (SWEDISH.equals(toLanguage)) {
+                    return "välkommen";
                 }
                 return unknowTranslationMessage(theWord);
             default:
