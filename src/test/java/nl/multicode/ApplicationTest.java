@@ -8,13 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static nl.multicode.EnglishToOtherTranslator.DUTCH;
-import static nl.multicode.EnglishToOtherTranslator.SWEDISH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest {
 
-    public static final String SWAHILI = "swahili";
     private EnglishToOtherTranslator englishToOtherTranslator;
 
     @BeforeEach
@@ -33,7 +30,7 @@ class ApplicationTest {
     @Test
     void null_input() {
 
-        assertThat(englishToOtherTranslator.getTranslationFor(null, null))
+        assertThat(englishToOtherTranslator.getTranslationFor(null))
                 .isEqualTo("null word or language arguments are not allowed!");
         assertThat(TestAppender.count()).isZero();
     }
@@ -41,22 +38,22 @@ class ApplicationTest {
     @Test
     void logging() {
 
-        englishToOtherTranslator.getTranslationFor("unknown", DUTCH);
-        assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting translation of unknown to dutch");
+        englishToOtherTranslator.getTranslationFor("unknown");
+        assertThat(TestAppender.getLogs(Level.INFO).get(0)).isEqualTo("requesting translation of unknown to swedish");
     }
 
     @ParameterizedTest
-    @CsvSource({"hello,hallå", "hi,hej", "welcome,välkommen", "bye,hejdå"})
+    @CsvSource({"hello,hallå", "hi,hej", "welcome,välkommen", "bye,hejdå", "goodbye,adjö", "later,senare"})
     void swedish(String word, String translation) {
 
-        assertThat(englishToOtherTranslator.getTranslationFor(word, SWEDISH)).isEqualTo(translation);
+        assertThat(englishToOtherTranslator.getTranslationFor(word)).isEqualTo(translation);
     }
 
     @ParameterizedTest
-    @CsvSource({"hello", "hi", "welcome", "bye", "bla"})
+    @CsvSource({"bla"})
     void unknownLanguage(String word) {
 
-        assertThat(englishToOtherTranslator.getTranslationFor(word, SWAHILI))
+        assertThat(englishToOtherTranslator.getTranslationFor(word))
                 .isEqualTo("unknown translation for word '" + word + "'");
     }
 }
