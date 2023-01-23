@@ -11,6 +11,7 @@ public enum HelloByeSynonym {
     private final String value;
 
     HelloByeSynonym(String value) {
+
         this.value = value;
     }
 

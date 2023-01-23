@@ -1,7 +1,5 @@
 package nl.multicode.model;
 
-import lombok.val;
-
 public enum TranslationLanguage {
     DUTCH("dutch"), SWEDISH("swedish");
 

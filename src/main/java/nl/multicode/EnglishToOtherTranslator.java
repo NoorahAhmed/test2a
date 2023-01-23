@@ -5,9 +5,14 @@ import org.apache.logging.log4j.Logger;
 
 public class EnglishToOtherTranslator {
 
-    private static final Logger log = LogManager.getLogger(EnglishToOtherTranslator.class);
     public static final String DUTCH = "dutch";
     public static final String SWEDISH = "swedish";
+    private static final Logger log = LogManager.getLogger(EnglishToOtherTranslator.class);
+
+    private static String unknowTranslationMessage(String theWord) {
+
+        return "unknown translation for word '" + theWord + "'";
+    }
 
     public String getTranslationFor(String theWord, String toLanguage) {
 
@@ -41,10 +46,5 @@ public class EnglishToOtherTranslator {
             default:
                 return unknowTranslationMessage(theWord);
         }
-    }
-
-    private static String unknowTranslationMessage(String theWord) {
-
-        return "unknown translation for word '" + theWord + "'";
     }
 }
