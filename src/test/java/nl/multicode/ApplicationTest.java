@@ -46,13 +46,6 @@ class ApplicationTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"hello,hallo", "hi,hi", "welcome,welkom", "bye,doei"})
-    void dutch(String word, String translation) {
-
-        assertThat(englishToOtherTranslator.getTranslationFor(word, DUTCH)).isEqualTo(translation);
-    }
-
-    @ParameterizedTest
     @CsvSource({"hello,hallå", "hi,hej", "welcome,välkommen", "bye,hejdå"})
     void swedish(String word, String translation) {
 

@@ -19,30 +19,22 @@ public class EnglishToOtherTranslator {
 
         switch (theWord) {
             case "hello":
-                if (DUTCH.equals(toLanguage)) {
-                    return "hallo";
-                } else if (SWEDISH.equals(toLanguage)) {
+                if (SWEDISH.equals(toLanguage)) {
                     return "hallå";
                 }
                 return unknowTranslationMessage(theWord);
             case "bye":
-                if (DUTCH.equals(toLanguage)) {
-                    return "doei";
-                } else if (SWEDISH.equals(toLanguage)) {
+                if (SWEDISH.equals(toLanguage)) {
                     return "hejdå";
                 }
                 return unknowTranslationMessage(theWord);
             case "hi":
-                if (DUTCH.equals(toLanguage)) {
-                    return "hi";
-                } else if (SWEDISH.equals(toLanguage)) {
+                if (SWEDISH.equals(toLanguage)) {
                     return "hej";
                 }
                 return unknowTranslationMessage(theWord);
             case "welcome":
-                if (DUTCH.equals(toLanguage)) {
-                    return "welkom";
-                } else if (SWEDISH.equals(toLanguage)) {
+                if (SWEDISH.equals(toLanguage)) {
                     return "välkommen";
                 }
                 return unknowTranslationMessage(theWord);
