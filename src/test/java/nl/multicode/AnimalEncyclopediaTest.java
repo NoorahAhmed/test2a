@@ -1,7 +1,5 @@
 package nl.multicode;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import nl.multicode.util.TestAppender;
 import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterEach;
@@ -10,14 +8,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class AnimalEncyclopediaTest {
 
-    private AnimalEncyclopedia englishToOtherTranslator;
+    private AnimalEncyclopedia animalEncyclopedia;
 
     @BeforeEach
     public void setup() {
 
-        englishToOtherTranslator = new AnimalEncyclopedia();
+        animalEncyclopedia = new AnimalEncyclopedia();
         TestAppender.clear();
     }
 
@@ -30,22 +30,24 @@ class AnimalEncyclopediaTest {
     @Test
     void null_input() {
 
-        englishToOtherTranslator.getTranslationFor(null);
-        assertThat(TestAppender.getLogs(Level.INFO)).contains("null word or language arguments are not allowed!");
-    }
-
-    @Test
-    void logging() {
-
-        englishToOtherTranslator.getTranslationFor("unknown");
-        assertThat(TestAppender.getLogs(Level.INFO)).contains("null word or language arguments are not allowed!");
+        animalEncyclopedia.getAnimalInfo(null);
+        assertThat(TestAppender.getLogs(Level.INFO)).contains("argument null is not allowed!");
     }
 
     @ParameterizedTest
-    @CsvSource({"dog,hond", "bread,brood", "welcome,welkom", "bye,hejdå", "goodbye,adjö", "later,senare"})
-    void swedish(String word, String output) {
+    @CsvSource({"dog,mamal,carnivore",
+            "koala,mamal,herbivore",
+            "chicken,bird,omnivore",
+            "hawk,bird,carnivore",
+            "gekko,reptile,insectivore",
+            "wasp,insect,herbivore",
+            "toad,caecilian,insectivore",
+            "unicorn,myth,unknown",
+            "bigfoot,myth,unknown"})
+    void animals(String animal, String animalType, String eaterType) {
 
-        englishToOtherTranslator.getTranslationFor(word);
-        assertThat(TestAppender.getLogs(Level.INFO)).contains("null word or language arguments are not allowed!");
+        animalEncyclopedia.getAnimalInfo(animal);
+        assertThat(TestAppender.getLogs(Level.INFO).get(1))
+                .isEqualTo(animal + " is a " + animalType + " and is a " + eaterType);
     }
 }

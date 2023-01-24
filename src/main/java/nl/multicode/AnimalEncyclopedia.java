@@ -8,7 +8,7 @@ public class AnimalEncyclopedia {
     private static final Logger log = LogManager.getLogger(AnimalEncyclopedia.class);
     private static final String MESSAGE = "{} is a {} and is a {}";
 
-    public void getTranslationFor(String animal) {
+    public void getAnimalInfo(String animal) {
 
         if (animal != null) {
             log.info("requested animal is {}!", animal);
