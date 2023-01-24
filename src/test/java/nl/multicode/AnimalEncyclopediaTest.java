@@ -35,11 +35,11 @@ class AnimalEncyclopediaTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"dog,mamal,carnivore",
-            "koala,mamal,herbivore",
+    @CsvSource({"dog,mammal,carnivore",
+            "koala,mammal,herbivore",
             "chicken,bird,omnivore",
             "hawk,bird,carnivore",
-            "gekko,reptile,insectivore",
+            "gecko,reptile,insectivore",
             "wasp,insect,herbivore",
             "toad,caecilian,insectivore",
             "unicorn,myth,unknown",
