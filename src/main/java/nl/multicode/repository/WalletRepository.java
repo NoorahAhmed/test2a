@@ -8,14 +8,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class WalletRepository {
 
-    private final Map<Currency, Integer> wallet;
+    private final Map<Currency, Double> wallet;
 
-    public int getBalance(final Currency currency) {
+    public Double getBalance(final Currency currency) {
 
         return wallet.get(currency);
     }
 
-    public void withdraw(Currency currency, int amount) {
+    public void withdraw(Currency currency, double amount) {
 
         wallet.put(currency, wallet.get(currency) - amount);
 
