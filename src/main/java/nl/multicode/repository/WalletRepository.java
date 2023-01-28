@@ -21,7 +21,7 @@ public class WalletRepository {
 
     }
 
-    public void deposit(Currency currency, int amount) {
+    public void deposit(Currency currency, double amount) {
 
         wallet.put(currency, wallet.get(currency) + amount);
     }

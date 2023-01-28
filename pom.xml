@@ -140,6 +140,9 @@
                     <targetTests>
                         <param>nl.multicode.*</param>
                     </targetTests>
+                    <excludedClasses>
+                        <excludedClass>nl.multicode.model.*</excludedClass>
+                    </excludedClasses>
                     <timeoutConstant>5000</timeoutConstant>
                     <timestampedReports>false</timestampedReports>
                 </configuration>
