@@ -15,7 +15,7 @@ public class DepositRequestProcessor implements MessageProcessor<DepositRequestM
     public BalanceResponseMessage process(DepositRequestMessage depositRequest) {
 
         final var currency = depositRequest.getCurrency();
-        final var depositAmount = depositRequest.getDepositAmount();
+        final var depositAmount = depositRequest.getAmount();
 
         wallet.deposit(currency, depositAmount);
 

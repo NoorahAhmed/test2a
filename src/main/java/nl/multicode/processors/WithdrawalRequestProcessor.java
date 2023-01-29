@@ -15,7 +15,7 @@ public class WithdrawalRequestProcessor implements MessageProcessor<WithdrawalRe
     public BalanceResponseMessage process(WithdrawalRequestMessage withdrawalRequest) {
 
         final var currency = withdrawalRequest.getCurrency();
-        final var withdrawalAmount = withdrawalRequest.getWithdrawalAmount();
+        final var withdrawalAmount = withdrawalRequest.getAmount();
 
         wallet.withdraw(currency, withdrawalAmount);
 

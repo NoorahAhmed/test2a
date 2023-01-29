@@ -16,10 +16,11 @@ public class RateRequestProcessor implements MessageProcessor<CurrencyRateReques
     public CurrencyRateResponseMessage process(CurrencyRateRequestMessage currencyRateRequestMessage) {
 
         final var currency = currencyRateRequestMessage.getCurrency();
+        final var rate = rateRepository.getRate(currency);
 
         return CurrencyRateResponseMessage.builder()
                 .currency(currency)
-                .rate(rateRepository.getRate(currency))
+                .rate(rate)
                 .build();
     }
 }
