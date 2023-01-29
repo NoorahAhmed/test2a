@@ -1,6 +1,6 @@
 package nl.multicode.processors;
 
-import nl.multicode.model.request.DepositRequestMessage;
+import nl.multicode.model.request.WithdrawalRequestMessage;
 import nl.multicode.repository.WalletRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,26 +14,29 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class DepositRequestProcessorTest {
+class WithdrawalRequestProcessorTest {
 
-    public static final double AMOUNT = 10d;
     @Mock
     private WalletRepository repository;
 
     @InjectMocks
-    private DepositRequestProcessor processor;
+    private WithdrawalRequestProcessor processor;
+
 
     @Test
     void process() {
 
-        when(repository.getBalance(DOLLAR)).thenReturn(AMOUNT);
-        final var response = processor.process(DepositRequestMessage.builder()
+
+        final var amount = 10d;
+        final var balanceAfterWithdrawal = 3d;
+        when(repository.getBalance(DOLLAR)).thenReturn(balanceAfterWithdrawal);
+        final var response = processor.process(WithdrawalRequestMessage.builder()
                 .currency(DOLLAR)
-                .amount(AMOUNT)
+                .amount(amount)
                 .build());
-        verify(repository).deposit(DOLLAR, AMOUNT);
+        verify(repository).withdraw(DOLLAR, amount);
         verify(repository).getBalance(DOLLAR);
-        assertThat(response.getAmount()).isEqualTo(AMOUNT);
+        assertThat(response.getAmount()).isEqualTo(balanceAfterWithdrawal);
         assertThat(response.getCurrency()).isEqualTo(DOLLAR);
     }
 }

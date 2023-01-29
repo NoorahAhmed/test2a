@@ -1,6 +1,5 @@
 package nl.multicode.processors;
 
-import nl.multicode.model.Currency;
 import nl.multicode.model.request.BalanceRequestMessage;
 import nl.multicode.repository.WalletRepository;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.when;
 class BalanceRequestProcessorTest {
 
     @Mock
-    private WalletRepository wallet;
+    private WalletRepository repository;
 
     @InjectMocks
     private BalanceRequestProcessor processor;
@@ -26,12 +25,12 @@ class BalanceRequestProcessorTest {
     @Test
     void process() {
 
-        when(wallet.getBalance(DOLLAR)).thenReturn(10d);
+        when(repository.getBalance(DOLLAR)).thenReturn(10d);
         final var response = processor.process(BalanceRequestMessage.builder()
                 .currency(DOLLAR)
                 .build());
         assertThat(response.getAmount()).isEqualTo(10d);
         assertThat(response.getCurrency()).isEqualTo(DOLLAR);
-        verify(wallet).getBalance(DOLLAR);
+        verify(repository).getBalance(DOLLAR);
     }
 }
