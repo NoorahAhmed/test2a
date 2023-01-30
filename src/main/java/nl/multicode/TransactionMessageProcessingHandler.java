@@ -40,7 +40,7 @@ public class TransactionMessageProcessingHandler {
     public Object process(RequestMessage message) {
 
         log.info("Processing requested for message {}", message);
-        final var messageProcessor = this.messageProcessors.get(getClassName(message.getClass()));
+        final var messageProcessor = message != null ? this.messageProcessors.get(getClassName(message.getClass())) : null;
         return messageProcessor != null ? messageProcessor.process(message) : null;
     }
 
