@@ -11,6 +11,10 @@ import nl.multicode.processors.BalanceRequestProcessor;
 import nl.multicode.processors.DepositRequestProcessor;
 import nl.multicode.processors.RateRequestProcessor;
 import nl.multicode.processors.WithdrawalRequestProcessor;
+import nl.multicode.util.TestAppender;
+import org.apache.logging.log4j.Level;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,6 +43,18 @@ class RequestMessageProcessingHandlerTest {
     @InjectMocks
     private TransactionMessageProcessingHandler handler;
 
+
+    @BeforeEach
+    public void setup() {
+
+        TestAppender.clear();
+    }
+
+    @AfterEach
+    public void tearDown() {
+
+        TestAppender.clear();
+    }
 
     @Test
     void process_withdrawal() {
@@ -101,5 +117,12 @@ class RequestMessageProcessingHandlerTest {
         verifyNoInteractions(depositRequestProcessor);
         verifyNoInteractions(withdrawalRequestProcessor);
         verifyNoInteractions(rateRequestProcessor);
+    }
+
+    @Test
+    void process_null_logging() {
+
+        assertThat(handler.process(null)).isNull();
+        assertThat(TestAppender.getLogs(Level.INFO)).contains("Processing requested for message null");
     }
 }
