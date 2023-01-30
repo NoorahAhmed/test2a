@@ -1,6 +1,6 @@
 package nl.multicode.processors;
 
-import nl.multicode.model.request.BalanceRequestMessage;
+import nl.multicode.model.request.BalanceRequest;
 import nl.multicode.repository.WalletRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,9 +26,7 @@ class BalanceRequestProcessorTest {
     void process() {
 
         when(repository.getBalance(DOLLAR)).thenReturn(10d);
-        final var response = processor.process(BalanceRequestMessage.builder()
-                .currency(DOLLAR)
-                .build());
+        final var response = processor.process(BalanceRequest.builder().currency(DOLLAR).build());
         assertThat(response.getAmount()).isEqualTo(10d);
         assertThat(response.getCurrency()).isEqualTo(DOLLAR);
         verify(repository).getBalance(DOLLAR);

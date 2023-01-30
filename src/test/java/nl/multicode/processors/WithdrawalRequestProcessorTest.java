@@ -1,6 +1,6 @@
 package nl.multicode.processors;
 
-import nl.multicode.model.request.WithdrawalRequestMessage;
+import nl.multicode.model.request.WithdrawalRequest;
 import nl.multicode.repository.WalletRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +30,7 @@ class WithdrawalRequestProcessorTest {
         final var amount = 10d;
         final var balanceAfterWithdrawal = 3d;
         when(repository.getBalance(DOLLAR)).thenReturn(balanceAfterWithdrawal);
-        final var response = processor.process(WithdrawalRequestMessage.builder()
+        final var response = processor.process(WithdrawalRequest.builder()
                 .currency(DOLLAR)
                 .amount(amount)
                 .build());

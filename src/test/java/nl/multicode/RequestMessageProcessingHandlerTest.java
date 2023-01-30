@@ -1,12 +1,12 @@
 package nl.multicode;
 
-import nl.multicode.model.TransactionMessage;
-import nl.multicode.model.request.BalanceRequestMessage;
-import nl.multicode.model.request.CurrencyRateRequestMessage;
-import nl.multicode.model.request.DepositRequestMessage;
-import nl.multicode.model.request.WithdrawalRequestMessage;
-import nl.multicode.model.response.BalanceResponseMessage;
-import nl.multicode.model.response.CurrencyRateResponseMessage;
+import nl.multicode.model.request.BalanceRequest;
+import nl.multicode.model.request.CurrencyRateRequest;
+import nl.multicode.model.request.DepositRequest;
+import nl.multicode.model.request.RequestMessage;
+import nl.multicode.model.request.WithdrawalRequest;
+import nl.multicode.model.response.BalanceResponse;
+import nl.multicode.model.response.CurrencyRateResponse;
 import nl.multicode.processors.BalanceRequestProcessor;
 import nl.multicode.processors.DepositRequestProcessor;
 import nl.multicode.processors.RateRequestProcessor;
@@ -20,11 +20,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-class TransactionMessageProcessingHandlerTest {
+class RequestMessageProcessingHandlerTest {
 
     @Mock
     private BalanceRequestProcessor balanceRequestProcessor;
@@ -42,8 +43,8 @@ class TransactionMessageProcessingHandlerTest {
     @Test
     void process_withdrawal() {
 
-        final var withdrawalRequestMessage = mock(WithdrawalRequestMessage.class);
-        final var responseMessage = mock(BalanceResponseMessage.class);
+        final var withdrawalRequestMessage = WithdrawalRequest.builder().build();
+        final var responseMessage = mock(BalanceResponse.class);
         when(withdrawalRequestProcessor.process(withdrawalRequestMessage)).thenReturn(responseMessage);
 
         final var response = handler.process(withdrawalRequestMessage);
@@ -55,8 +56,8 @@ class TransactionMessageProcessingHandlerTest {
     @Test
     void process_deposit() {
 
-        final var depositRequestMessage = mock(DepositRequestMessage.class);
-        final var responseMessage = mock(BalanceResponseMessage.class);
+        final var depositRequestMessage = DepositRequest.builder().build();
+        final var responseMessage = mock(BalanceResponse.class);
         when(depositRequestProcessor.process(depositRequestMessage)).thenReturn(responseMessage);
 
         final var response = handler.process(depositRequestMessage);
@@ -68,8 +69,8 @@ class TransactionMessageProcessingHandlerTest {
     @Test
     void process_balance() {
 
-        final var balanceRequestMessage = mock(BalanceRequestMessage.class);
-        final var responseMessage = mock(BalanceResponseMessage.class);
+        final var balanceRequestMessage = BalanceRequest.builder().build();
+        final var responseMessage = mock(BalanceResponse.class);
         when(balanceRequestProcessor.process(balanceRequestMessage)).thenReturn(responseMessage);
 
         final var response = handler.process(balanceRequestMessage);
@@ -81,10 +82,12 @@ class TransactionMessageProcessingHandlerTest {
     @Test
     void process_rate() {
 
-        final var rateRequestMessage = mock(CurrencyRateRequestMessage.class);
-        final var responseMessage = mock(CurrencyRateResponseMessage.class);
+        final var rateRequestMessage = CurrencyRateRequest.builder().build();
+        final var responseMessage = mock(CurrencyRateResponse.class);
         when(rateRequestProcessor.process(rateRequestMessage)).thenReturn(responseMessage);
+
         final var response = handler.process(rateRequestMessage);
+
         verify(rateRequestProcessor).process(rateRequestMessage);
         assertThat(response).isEqualTo(responseMessage);
     }
@@ -92,7 +95,11 @@ class TransactionMessageProcessingHandlerTest {
     @Test
     void process_unknown() {
 
-        final var rateRequestMessage = mock(TransactionMessage.class);
+        final var rateRequestMessage = mock(RequestMessage.class);
         assertThat(handler.process(rateRequestMessage)).isNull();
+        verifyNoInteractions(balanceRequestProcessor);
+        verifyNoInteractions(depositRequestProcessor);
+        verifyNoInteractions(withdrawalRequestProcessor);
+        verifyNoInteractions(rateRequestProcessor);
     }
 }

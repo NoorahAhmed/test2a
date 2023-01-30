@@ -1,7 +1,7 @@
 package nl.multicode.processors;
 
 import nl.multicode.model.Currency;
-import nl.multicode.model.request.CurrencyRateRequestMessage;
+import nl.multicode.model.request.CurrencyRateRequest;
 import nl.multicode.repository.RateRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ class RateRequestProcessorTest {
 
         final var dinarRate = 0.1d;
         when(repository.getRate(Currency.DINAR)).thenReturn(dinarRate);
-        final var response = processor.process(CurrencyRateRequestMessage.builder()
+        final var response = processor.process(CurrencyRateRequest.builder()
                 .currency(Currency.DINAR)
                 .build());
         assertThat(response.getRate()).isEqualTo(dinarRate);

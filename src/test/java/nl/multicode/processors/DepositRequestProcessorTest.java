@@ -1,6 +1,6 @@
 package nl.multicode.processors;
 
-import nl.multicode.model.request.DepositRequestMessage;
+import nl.multicode.model.request.DepositRequest;
 import nl.multicode.repository.WalletRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ class DepositRequestProcessorTest {
     void process() {
 
         when(repository.getBalance(DOLLAR)).thenReturn(AMOUNT);
-        final var response = processor.process(DepositRequestMessage.builder()
+        final var response = processor.process(DepositRequest.builder()
                 .currency(DOLLAR)
                 .amount(AMOUNT)
                 .build());

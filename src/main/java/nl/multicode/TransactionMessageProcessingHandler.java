@@ -1,39 +1,51 @@
 package nl.multicode;
 
-import lombok.RequiredArgsConstructor;
-import nl.multicode.model.TransactionMessage;
-import nl.multicode.model.request.BalanceRequestMessage;
-import nl.multicode.model.request.CurrencyRateRequestMessage;
-import nl.multicode.model.request.DepositRequestMessage;
-import nl.multicode.model.request.WithdrawalRequestMessage;
+import nl.multicode.model.request.BalanceRequest;
+import nl.multicode.model.request.CurrencyRateRequest;
+import nl.multicode.model.request.DepositRequest;
+import nl.multicode.model.request.RequestMessage;
+import nl.multicode.model.request.WithdrawalRequest;
 import nl.multicode.processors.BalanceRequestProcessor;
 import nl.multicode.processors.DepositRequestProcessor;
+import nl.multicode.processors.MessageProcessor;
 import nl.multicode.processors.RateRequestProcessor;
 import nl.multicode.processors.WithdrawalRequestProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Map;
 
-@RequiredArgsConstructor
+import static java.util.Map.entry;
+
+
 public class TransactionMessageProcessingHandler {
 
     private static final Logger log = LogManager.getLogger(TransactionMessageProcessingHandler.class);
-    private final BalanceRequestProcessor balanceRequestProcessor;
-    private final DepositRequestProcessor depositRequestProcessor;
-    private final WithdrawalRequestProcessor withdrawalRequestProcessor;
-    private final RateRequestProcessor rateRequestProcessor;
 
-    public TransactionMessage process(TransactionMessage message) {
+    private final Map<String, MessageProcessor> messageProcessors;
 
-        if (message instanceof BalanceRequestMessage balanceRequestMessage) {
-            return balanceRequestProcessor.process(balanceRequestMessage);
-        } else if (message instanceof WithdrawalRequestMessage withdrawalRequestMessage) {
-            return withdrawalRequestProcessor.process(withdrawalRequestMessage);
-        } else if (message instanceof DepositRequestMessage depositRequestMessage) {
-            return depositRequestProcessor.process(depositRequestMessage);
-        } else if (message instanceof CurrencyRateRequestMessage currencyRateRequestMessage) {
-            return rateRequestProcessor.process(currencyRateRequestMessage);
-        }
-        return null;
+    public TransactionMessageProcessingHandler(final BalanceRequestProcessor balanceRequestProcessor,
+                                               final DepositRequestProcessor depositRequestProcessor,
+                                               final WithdrawalRequestProcessor withdrawalRequestProcessor,
+                                               final RateRequestProcessor rateRequestProcessor) {
+
+        this.messageProcessors = Map.ofEntries(
+                entry(getClassName(BalanceRequest.class), balanceRequestProcessor),
+                entry(getClassName(WithdrawalRequest.class), withdrawalRequestProcessor),
+                entry(getClassName(DepositRequest.class), depositRequestProcessor),
+                entry(getClassName(CurrencyRateRequest.class), rateRequestProcessor));
+    }
+
+
+    public Object process(RequestMessage message) {
+
+        log.info("Processing requested for message {}", message);
+        final var messageProcessor = this.messageProcessors.get(getClassName(message.getClass()));
+        return messageProcessor != null ? messageProcessor.process(message) : null;
+    }
+
+    private String getClassName(Class<?> classObject) {
+
+        return classObject.getCanonicalName();
     }
 }

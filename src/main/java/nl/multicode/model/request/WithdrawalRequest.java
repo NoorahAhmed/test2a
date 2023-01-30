@@ -3,11 +3,10 @@ package nl.multicode.model.request;
 import lombok.Builder;
 import lombok.Getter;
 import nl.multicode.model.Currency;
-import nl.multicode.model.TransactionMessage;
 
 @Getter
 @Builder
-public class WithdrawalRequestMessage implements TransactionMessage {
+public class WithdrawalRequest implements RequestMessage {
 
     private final double amount;
     private final Currency currency;

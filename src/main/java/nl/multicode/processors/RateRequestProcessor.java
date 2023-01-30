@@ -1,24 +1,24 @@
 package nl.multicode.processors;
 
 import lombok.RequiredArgsConstructor;
-import nl.multicode.model.request.CurrencyRateRequestMessage;
-import nl.multicode.model.response.CurrencyRateResponseMessage;
-import nl.multicode.repository.MessageProcessor;
+import nl.multicode.model.request.CurrencyRateRequest;
+import nl.multicode.model.response.CurrencyRateResponse;
 import nl.multicode.repository.RateRepository;
 
 @RequiredArgsConstructor
-public class RateRequestProcessor implements MessageProcessor<CurrencyRateRequestMessage, CurrencyRateResponseMessage> {
+public class RateRequestProcessor implements MessageProcessor {
 
     private final RateRepository rateRepository;
 
 
     @Override
-    public CurrencyRateResponseMessage process(CurrencyRateRequestMessage currencyRateRequestMessage) {
+    public CurrencyRateResponse process(Object request) {
 
+        final var currencyRateRequestMessage = (CurrencyRateRequest) request;
         final var currency = currencyRateRequestMessage.getCurrency();
         final var rate = rateRepository.getRate(currency);
 
-        return CurrencyRateResponseMessage.builder()
+        return CurrencyRateResponse.builder()
                 .currency(currency)
                 .rate(rate)
                 .build();

@@ -1,22 +1,21 @@
 package nl.multicode.processors;
 
 import lombok.RequiredArgsConstructor;
-import nl.multicode.model.request.BalanceRequestMessage;
-import nl.multicode.model.response.BalanceResponseMessage;
-import nl.multicode.repository.MessageProcessor;
+import nl.multicode.model.request.BalanceRequest;
+import nl.multicode.model.response.BalanceResponse;
 import nl.multicode.repository.WalletRepository;
 
 @RequiredArgsConstructor
-public class BalanceRequestProcessor implements MessageProcessor<BalanceRequestMessage, BalanceResponseMessage> {
+public class BalanceRequestProcessor implements MessageProcessor {
 
     private final WalletRepository wallet;
 
-    @Override
-    public BalanceResponseMessage process(BalanceRequestMessage balanceRequestMessage) {
+    public BalanceResponse process(Object request) {
 
-        final var currency = balanceRequestMessage.getCurrency();
+        final var balanceRequest = (BalanceRequest) request;
+        final var currency = balanceRequest.getCurrency();
 
-        return BalanceResponseMessage.builder()
+        return BalanceResponse.builder()
                 .amount(wallet.getBalance(currency))
                 .currency(currency)
                 .build();

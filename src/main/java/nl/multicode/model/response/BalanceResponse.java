@@ -3,12 +3,11 @@ package nl.multicode.model.response;
 import lombok.Builder;
 import lombok.Getter;
 import nl.multicode.model.Currency;
-import nl.multicode.model.TransactionMessage;
 
 @Getter
 @Builder
-public class CurrencyRateResponseMessage implements TransactionMessage {
+public class BalanceResponse implements ResponseMessage {
 
-    private final Double rate;
+    private final Double amount;
     private final Currency currency;
 }
