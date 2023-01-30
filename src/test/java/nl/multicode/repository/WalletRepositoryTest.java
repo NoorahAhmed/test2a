@@ -10,8 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,19 +35,21 @@ class WalletRepositoryTest {
 
     @Test
     void withdraw() {
+
         final var dollarsBalance = Double.valueOf(10);
         when(currencyDoubleMap.get(Currency.KRONA)).thenReturn(dollarsBalance);
         repository.withdraw(Currency.KRONA, 1d);
         verify(currencyDoubleMap).get(Currency.KRONA);
-        verify(currencyDoubleMap).put(eq(Currency.KRONA),eq(9d));
+        verify(currencyDoubleMap).put(eq(Currency.KRONA), eq(9d));
     }
 
     @Test
     void deposit() {
+
         final var dollarsBalance = Double.valueOf(9d);
         when(currencyDoubleMap.get(Currency.DINAR)).thenReturn(dollarsBalance);
         repository.deposit(Currency.DINAR, 1d);
         verify(currencyDoubleMap).get(Currency.DINAR);
-        verify(currencyDoubleMap).put(eq(Currency.DINAR),eq(10d));
+        verify(currencyDoubleMap).put(eq(Currency.DINAR), eq(10d));
     }
 }
