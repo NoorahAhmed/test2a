@@ -33,7 +33,6 @@ class DepositRequestProcessorTest {
                 .build());
         verify(repository).deposit(DOLLAR, AMOUNT);
         verify(repository).getBalance(DOLLAR);
-        assertThat(response.getAmount()).isEqualTo(AMOUNT);
-        assertThat(response.getCurrency()).isEqualTo(DOLLAR);
+        assertThat(response).isEqualTo("BalanceResponse(amount=10.0, currency=DOLLAR)");
     }
 }

@@ -1,6 +1,7 @@
 package nl.multicode.processors;
 
 import lombok.RequiredArgsConstructor;
+import nl.multicode.model.request.RequestMessage;
 import nl.multicode.model.request.WithdrawalRequest;
 import nl.multicode.model.response.BalanceResponse;
 import nl.multicode.repository.WalletRepository;
@@ -11,7 +12,7 @@ public class WithdrawalRequestProcessor implements MessageProcessor {
     private final WalletRepository wallet;
 
     @Override
-    public BalanceResponse process(Object request) {
+    public String process(RequestMessage request) {
 
         final var withdrawalRequest = (WithdrawalRequest) request;
         final var currency = withdrawalRequest.getCurrency();
@@ -20,8 +21,9 @@ public class WithdrawalRequestProcessor implements MessageProcessor {
         wallet.withdraw(currency, withdrawalAmount);
 
         return BalanceResponse.builder()
-                .amount(wallet.getBalance(withdrawalRequest.getCurrency()))
-                .currency(withdrawalRequest.getCurrency())
-                .build();
+            .amount(wallet.getBalance(withdrawalRequest.getCurrency()))
+            .currency(withdrawalRequest.getCurrency())
+            .build()
+            .toString();
     }
 }

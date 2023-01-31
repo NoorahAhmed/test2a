@@ -31,6 +31,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RequestMessageProcessingHandlerTest {
 
+    public static final String RESPONSE_MESSAGE = "responseMessage";
     @Mock
     private BalanceRequestProcessor balanceRequestProcessor;
     @Mock
@@ -60,52 +61,47 @@ class RequestMessageProcessingHandlerTest {
     void process_withdrawal() {
 
         final var withdrawalRequestMessage = WithdrawalRequest.builder().build();
-        final var responseMessage = mock(BalanceResponse.class);
-        when(withdrawalRequestProcessor.process(withdrawalRequestMessage)).thenReturn(responseMessage);
+        when(withdrawalRequestProcessor.process(withdrawalRequestMessage)).thenReturn(RESPONSE_MESSAGE);
 
         final var response = handler.process(withdrawalRequestMessage);
 
         verify(withdrawalRequestProcessor).process(withdrawalRequestMessage);
-        assertThat(response).isEqualTo(responseMessage);
+        assertThat(response).isEqualTo(RESPONSE_MESSAGE);
     }
 
     @Test
     void process_deposit() {
 
         final var depositRequestMessage = DepositRequest.builder().build();
-        final var responseMessage = mock(BalanceResponse.class);
-        when(depositRequestProcessor.process(depositRequestMessage)).thenReturn(responseMessage);
+        when(depositRequestProcessor.process(depositRequestMessage)).thenReturn(RESPONSE_MESSAGE);
 
         final var response = handler.process(depositRequestMessage);
 
         verify(depositRequestProcessor).process(depositRequestMessage);
-        assertThat(response).isEqualTo(responseMessage);
+        assertThat(response).isEqualTo(RESPONSE_MESSAGE);
     }
 
     @Test
     void process_balance() {
 
         final var balanceRequestMessage = BalanceRequest.builder().build();
-        final var responseMessage = mock(BalanceResponse.class);
-        when(balanceRequestProcessor.process(balanceRequestMessage)).thenReturn(responseMessage);
+        when(balanceRequestProcessor.process(balanceRequestMessage)).thenReturn(RESPONSE_MESSAGE);
 
         final var response = handler.process(balanceRequestMessage);
 
         verify(balanceRequestProcessor).process(balanceRequestMessage);
-        assertThat(response).isEqualTo(responseMessage);
+        assertThat(response).isEqualTo(RESPONSE_MESSAGE);
     }
 
     @Test
     void process_rate() {
 
         final var rateRequestMessage = CurrencyRateRequest.builder().build();
-        final var responseMessage = mock(CurrencyRateResponse.class);
-        when(rateRequestProcessor.process(rateRequestMessage)).thenReturn(responseMessage);
+        when(rateRequestProcessor.process(rateRequestMessage)).thenReturn(RESPONSE_MESSAGE);
 
         final var response = handler.process(rateRequestMessage);
-
         verify(rateRequestProcessor).process(rateRequestMessage);
-        assertThat(response).isEqualTo(responseMessage);
+        assertThat(response).isEqualTo(RESPONSE_MESSAGE);
     }
 
     @Test

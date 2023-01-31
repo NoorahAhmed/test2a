@@ -6,14 +6,12 @@ import nl.multicode.model.request.CurrencyRateRequest;
 import nl.multicode.model.request.DepositRequest;
 import nl.multicode.model.request.RequestMessage;
 import nl.multicode.model.request.WithdrawalRequest;
-import nl.multicode.model.response.ResponseMessage;
 import nl.multicode.processors.BalanceRequestProcessor;
 import nl.multicode.processors.DepositRequestProcessor;
 import nl.multicode.processors.RateRequestProcessor;
 import nl.multicode.processors.WithdrawalRequestProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 @RequiredArgsConstructor
 public class TransactionMessageProcessingHandler {
@@ -24,10 +22,10 @@ public class TransactionMessageProcessingHandler {
     private final WithdrawalRequestProcessor withdrawalRequestProcessor;
     private final RateRequestProcessor rateRequestProcessor;
 
-    public ResponseMessage process(RequestMessage message) {
+    public String process(RequestMessage message) {
 
         log.info("Processing requested for message {}", message);
-        if(message!=null) {
+        if (message != null) {
             if (message instanceof BalanceRequest balanceRequestMessage) {
                 return balanceRequestProcessor.process(balanceRequestMessage);
             }
