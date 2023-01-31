@@ -27,8 +27,7 @@ class BalanceRequestProcessorTest {
 
         when(repository.getBalance(DOLLAR)).thenReturn(10d);
         final var response = processor.process(BalanceRequest.builder().currency(DOLLAR).build());
-        assertThat(response.getAmount()).isEqualTo(10d);
-        assertThat(response.getCurrency()).isEqualTo(DOLLAR);
+        assertThat(response).isEqualTo("BalanceResponse(amount=10.0, currency=DOLLAR)");
         verify(repository).getBalance(DOLLAR);
     }
 }

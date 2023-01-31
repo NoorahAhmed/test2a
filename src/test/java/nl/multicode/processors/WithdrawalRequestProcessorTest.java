@@ -36,7 +36,6 @@ class WithdrawalRequestProcessorTest {
                 .build());
         verify(repository).withdraw(DOLLAR, amount);
         verify(repository).getBalance(DOLLAR);
-        assertThat(response.getAmount()).isEqualTo(balanceAfterWithdrawal);
-        assertThat(response.getCurrency()).isEqualTo(DOLLAR);
+        assertThat(response).isEqualTo("BalanceResponse(amount=3.0, currency=DOLLAR)");
     }
 }

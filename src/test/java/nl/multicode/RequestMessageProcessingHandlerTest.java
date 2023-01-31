@@ -11,6 +11,10 @@ import nl.multicode.processors.BalanceRequestProcessor;
 import nl.multicode.processors.DepositRequestProcessor;
 import nl.multicode.processors.RateRequestProcessor;
 import nl.multicode.processors.WithdrawalRequestProcessor;
+import nl.multicode.util.TestAppender;
+import org.apache.logging.log4j.Level;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +31,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RequestMessageProcessingHandlerTest {
 
+    public static final String RESPONSE_MESSAGE = "responseMessage";
     @Mock
     private BalanceRequestProcessor balanceRequestProcessor;
     @Mock
@@ -40,56 +45,63 @@ class RequestMessageProcessingHandlerTest {
     private TransactionMessageProcessingHandler handler;
 
 
+    @BeforeEach
+    public void setup() {
+
+        TestAppender.clear();
+    }
+
+    @AfterEach
+    public void tearDown() {
+
+        TestAppender.clear();
+    }
+
     @Test
     void process_withdrawal() {
 
         final var withdrawalRequestMessage = WithdrawalRequest.builder().build();
-        final var responseMessage = mock(BalanceResponse.class);
-        when(withdrawalRequestProcessor.process(withdrawalRequestMessage)).thenReturn(responseMessage);
+        when(withdrawalRequestProcessor.process(withdrawalRequestMessage)).thenReturn(RESPONSE_MESSAGE);
 
         final var response = handler.process(withdrawalRequestMessage);
 
         verify(withdrawalRequestProcessor).process(withdrawalRequestMessage);
-        assertThat(response).isEqualTo(responseMessage);
+        assertThat(response).isEqualTo(RESPONSE_MESSAGE);
     }
 
     @Test
     void process_deposit() {
 
         final var depositRequestMessage = DepositRequest.builder().build();
-        final var responseMessage = mock(BalanceResponse.class);
-        when(depositRequestProcessor.process(depositRequestMessage)).thenReturn(responseMessage);
+        when(depositRequestProcessor.process(depositRequestMessage)).thenReturn(RESPONSE_MESSAGE);
 
         final var response = handler.process(depositRequestMessage);
 
         verify(depositRequestProcessor).process(depositRequestMessage);
-        assertThat(response).isEqualTo(responseMessage);
+        assertThat(response).isEqualTo(RESPONSE_MESSAGE);
     }
 
     @Test
     void process_balance() {
 
         final var balanceRequestMessage = BalanceRequest.builder().build();
-        final var responseMessage = mock(BalanceResponse.class);
-        when(balanceRequestProcessor.process(balanceRequestMessage)).thenReturn(responseMessage);
+        when(balanceRequestProcessor.process(balanceRequestMessage)).thenReturn(RESPONSE_MESSAGE);
 
         final var response = handler.process(balanceRequestMessage);
 
         verify(balanceRequestProcessor).process(balanceRequestMessage);
-        assertThat(response).isEqualTo(responseMessage);
+        assertThat(response).isEqualTo(RESPONSE_MESSAGE);
     }
 
     @Test
     void process_rate() {
 
         final var rateRequestMessage = CurrencyRateRequest.builder().build();
-        final var responseMessage = mock(CurrencyRateResponse.class);
-        when(rateRequestProcessor.process(rateRequestMessage)).thenReturn(responseMessage);
+        when(rateRequestProcessor.process(rateRequestMessage)).thenReturn(RESPONSE_MESSAGE);
 
         final var response = handler.process(rateRequestMessage);
-
         verify(rateRequestProcessor).process(rateRequestMessage);
-        assertThat(response).isEqualTo(responseMessage);
+        assertThat(response).isEqualTo(RESPONSE_MESSAGE);
     }
 
     @Test
@@ -101,5 +113,12 @@ class RequestMessageProcessingHandlerTest {
         verifyNoInteractions(depositRequestProcessor);
         verifyNoInteractions(withdrawalRequestProcessor);
         verifyNoInteractions(rateRequestProcessor);
+    }
+
+    @Test
+    void process_null_logging() {
+
+        assertThat(handler.process(null)).isNull();
+        assertThat(TestAppender.getLogs(Level.INFO)).contains("Processing requested for message null");
     }
 }

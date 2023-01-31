@@ -1,7 +1,8 @@
 package nl.multicode.processors;
 
+import nl.multicode.model.request.RequestMessage;
+
 public interface MessageProcessor {
 
-    Object process(Object message);
-
+    String process(RequestMessage message);
 }

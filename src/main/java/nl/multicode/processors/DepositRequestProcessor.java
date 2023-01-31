@@ -2,6 +2,7 @@ package nl.multicode.processors;
 
 import lombok.RequiredArgsConstructor;
 import nl.multicode.model.request.DepositRequest;
+import nl.multicode.model.request.RequestMessage;
 import nl.multicode.model.response.BalanceResponse;
 import nl.multicode.repository.WalletRepository;
 
@@ -10,7 +11,7 @@ public class DepositRequestProcessor implements MessageProcessor {
 
     private final WalletRepository wallet;
 
-    public BalanceResponse process(Object request) {
+    public String process(RequestMessage request) {
 
         final var depositRequest = (DepositRequest) request;
         final var currency = depositRequest.getCurrency();
@@ -19,8 +20,9 @@ public class DepositRequestProcessor implements MessageProcessor {
         wallet.deposit(currency, depositAmount);
 
         return BalanceResponse.builder()
-                .amount(wallet.getBalance(depositRequest.getCurrency()))
-                .currency(depositRequest.getCurrency())
-                .build();
+            .amount(wallet.getBalance(depositRequest.getCurrency()))
+            .currency(depositRequest.getCurrency())
+            .build()
+            .toString();
     }
 }

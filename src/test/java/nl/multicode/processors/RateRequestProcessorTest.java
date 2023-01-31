@@ -31,7 +31,7 @@ class RateRequestProcessorTest {
         final var response = processor.process(CurrencyRateRequest.builder()
                 .currency(Currency.DINAR)
                 .build());
-        assertThat(response.getRate()).isEqualTo(dinarRate);
+        assertThat(response).isEqualTo("CurrencyRateResponse(rate=0.1, currency=DINAR)");
         verify(repository).getRate(Currency.DINAR);
     }
 }
