@@ -30,22 +30,21 @@ public class TransactionMessageProcessingHandler {
                                                final RateRequestProcessor rateRequestProcessor) {
 
         this.messageProcessors = Map.ofEntries(
-                entry(getClassName(BalanceRequest.class), balanceRequestProcessor),
-                entry(getClassName(WithdrawalRequest.class), withdrawalRequestProcessor),
-                entry(getClassName(DepositRequest.class), depositRequestProcessor),
-                entry(getClassName(CurrencyRateRequest.class), rateRequestProcessor));
+                entry(BalanceRequest.class.getCanonicalName(), balanceRequestProcessor),
+                entry(WithdrawalRequest.class.getCanonicalName(), withdrawalRequestProcessor),
+                entry(DepositRequest.class.getCanonicalName(), depositRequestProcessor),
+                entry(CurrencyRateRequest.class.getCanonicalName(), rateRequestProcessor));
     }
 
 
     public Object process(RequestMessage message) {
 
         log.info("Processing requested for message {}", message);
-        final var messageProcessor = message != null ? this.messageProcessors.get(getClassName(message.getClass())) : null;
-        return messageProcessor != null ? messageProcessor.process(message) : null;
+        return getMessageProcessor(message) != null ? getMessageProcessor(message).process(message) : null;
     }
 
-    private String getClassName(Class<?> classObject) {
+    private MessageProcessor getMessageProcessor(RequestMessage message) {
 
-        return classObject.getCanonicalName();
+        return message != null ? this.messageProcessors.get(message.getClass().getCanonicalName()) : null;
     }
 }
