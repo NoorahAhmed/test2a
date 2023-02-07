@@ -12,7 +12,7 @@ public class Application {
 
     public static void main(String[] args) {
 
-        if (args[0] != null && args[0].length() > 0) {
+        if (args != null && args.length > 0 && args[0] != null && args[0].length() > 0) {
             final var numbersArray = args[0].split(",");
             if (numbersArray.length > 0) {
                 final var resultsList = new ArrayList<String>();
@@ -23,7 +23,7 @@ public class Application {
                         sum += Character.getNumericValue(number.toCharArray()[i]) * MULTIPLIERE_ARRAY[i];
                     }
                     result = (sum % 11 == 0);
-                    final var validityMessage = result ? (number + " is a valid " + args[1]) : (number + " is an invalid bsn");
+                    final var validityMessage = result ? (number + " is a valid bsn") : (number + " is an invalid bsn");
                     resultsList.add(validityMessage);
                 }
                 for (String message : resultsList) {
