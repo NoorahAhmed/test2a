@@ -11,7 +11,7 @@ public class Application {
 
     public static void main(String[] args) {
 
-        if (args != null && args.length > 0) {
+        if (args != null) {
             Arrays.stream(args)
                 .map(new ValidityMapper())
                 .forEach(log::info);
