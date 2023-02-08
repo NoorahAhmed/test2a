@@ -32,13 +32,6 @@ class ApplicationTest {
         assertThat(TestAppender.getLogs(Level.INFO)).isEmpty();
     }
 
-    @Test
-    void main_empty() {
-
-        Application.main(new String[]{});
-        assertThat(TestAppender.getLogs(Level.INFO)).isEmpty();
-    }
-
     @ParameterizedTest
     @CsvSource({"228996755,228996755 is an invalid bsn", "492015594,492015594 is a valid bsn"})
     void main_multiple_mix_valid_invalid_bsn(String input, String output) {

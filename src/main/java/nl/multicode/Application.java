@@ -1,35 +1,28 @@
 package nl.multicode;
 
-import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.function.Predicate;
+
 public class Application {
 
-    private static final int[] MULTIPLIERE_ARRAY = new int[]{9, 8, 7, 6, 5, 4, 3, 2, -1};
-    private static final int BSN_NUMBER_LENGTH = 9;
+    public static final Predicate<String> STRING_LENGTH_PREDICATE = string -> string.length() > 0;
+    public static final Predicate<String> BSN_LENGTH_PREDICATE = string -> string.length() == 9;
+    public static final Predicate<Object> OBJECT_NOT_NULL_PREDICATE = Objects::nonNull;
+
     private static final Logger log = LogManager.getLogger(Application.class);
 
     public static void main(String[] args) {
 
-        if (args != null && args.length > 0 && args[0] != null && args[0].length() > 0) {
-            final var numbersArray = args[0].split(",");
-            if (numbersArray.length > 0) {
-                final var resultsList = new ArrayList<String>();
-                for (String number : numbersArray) {
-                    boolean result;
-                    int sum = 0;
-                    for (int i = 0; i < BSN_NUMBER_LENGTH; i++) {
-                        sum += Character.getNumericValue(number.toCharArray()[i]) * MULTIPLIERE_ARRAY[i];
-                    }
-                    result = (sum % 11 == 0);
-                    final var validityMessage = result ? (number + " is a valid bsn") : (number + " is an invalid bsn");
-                    resultsList.add(validityMessage);
-                }
-                for (String message : resultsList) {
-                    log.info(message);
-                }
-            }
+        if (OBJECT_NOT_NULL_PREDICATE.test(args)) {
+            Arrays.stream(args[0].split(","))
+                    .filter(STRING_LENGTH_PREDICATE)
+                    .filter(BSN_LENGTH_PREDICATE)
+                    .map(new ElevenProofMessageMapper())
+                    .forEach(log::info);
         }
     }
 }
