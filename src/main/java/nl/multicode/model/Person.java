@@ -1,46 +1,50 @@
 package nl.multicode.model;
 
-import java.util.List;
 
 public class Person {
 
     private final String name;
-    private final int age;
-    private final List<Person> children;
+    private final String birthDate;
 
-    public Person(String name, int age) {
+    private final HairColor hairColor;
 
-        this.name = name;
-        this.age = age;
-        this.children = List.of();
+    public Person(String name, String birthDate, HairColor hairColor) {
+
+        if (name != null) {
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("name may not be null");
+        }
+        if (birthDate != null && !birthDate.isEmpty()) {
+            this.birthDate = birthDate;
+        } else {
+            throw new IllegalArgumentException("age may not be less than 0");
+        }
+        if (hairColor != null) {
+            this.hairColor = hairColor;
+        } else {
+            throw new IllegalArgumentException("hairColor may not be null");
+        }
     }
-
-    public Person(String name, int age, List<Person> children) {
-
-        this.name = name;
-        this.age = age;
-        this.children = children;
-    }
-
 
     public String getName() {
 
         return name;
     }
 
-    public int getAge() {
+    public String getBirthDate() {
 
-        return age;
+        return birthDate;
     }
 
-    public List<Person> getChildren() {
+    public HairColor getHairColor() {
 
-        return children != null ? children : List.of();
+        return hairColor;
     }
 
+    @Override
     public String toString() {
 
-        return "User: [name: [" + name + "], age: [" + age + "]]";
+        return "Person(name=" + name + ", birthDate=" + birthDate + ", hair=" + hairColor + ")";
     }
-
 }
