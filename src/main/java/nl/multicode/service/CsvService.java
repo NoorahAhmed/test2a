@@ -24,8 +24,7 @@ public class CsvService {
 
     public List<Person> readPersonsCsv(String csvFile) {
 
-
-        List<Person> personList = new ArrayList<>();
+        final var personList = new ArrayList<Person>();
         File file = new File(csvFile);
         if (file.exists()) {
             try {
