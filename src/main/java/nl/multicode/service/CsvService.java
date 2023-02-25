@@ -35,13 +35,12 @@ public class CsvService {
                     String line;
                     int lineCount = 0;
                     while ((line = br.readLine()) != null) {
-                        if (lineCount == 0) {
-                            //skip header line
-                            lineCount++;
-                        } else {
+                        if (lineCount > 0) {
+                            //MAP ONLY AFTER SKIPPING FIRST LINE
                             final Person person = mapper.apply(line);
                             personList.add(person);
                         }
+                        lineCount++;
                     }
                 }
                 br.close();
