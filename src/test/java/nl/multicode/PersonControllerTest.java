@@ -16,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,13 +46,22 @@ class PersonControllerTest {
     @Test
     void test_empty_list() {
 
-        final var csvFile = "test.csv";
-        final List<Person> emptyList = List.of();
-        when(csvService.readPersonsCsv(csvFile)).thenReturn(emptyList);
+        final var csvFile = "fakeFile.csv";
+        final List<Person> personList = List.of(mock(Person.class));
+        when(csvService.readPersonsCsv(csvFile)).thenReturn(personList);
 
         final var result = personController.readPersonsFile(csvFile);
 
-        assertThat(result).isEqualTo(emptyList);
+        assertThat(result).isEqualTo(personList);
         verify(csvService).readPersonsCsv(csvFile);
+    }
+
+    @Test
+    void test_empty_string() {
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            personController.readPersonsFile("");
+        }, "IllegalArgumentException was expected");
+        assertThat(thrown.getMessage()).isEqualTo("csv file must not be null or empty string!");
     }
 }

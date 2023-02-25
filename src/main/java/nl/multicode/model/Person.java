@@ -4,6 +4,7 @@ package nl.multicode.model;
 public class Person {
 
     private final String name;
+
     private final String birthDate;
 
     private final HairColor hairColor;
@@ -18,7 +19,7 @@ public class Person {
         if (birthDate != null && !birthDate.isEmpty()) {
             this.birthDate = birthDate;
         } else {
-            throw new IllegalArgumentException("age may not be less than 0");
+            throw new IllegalArgumentException("birthDate may not be null");
         }
         if (hairColor != null) {
             this.hairColor = hairColor;
