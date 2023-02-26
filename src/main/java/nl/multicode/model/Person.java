@@ -7,9 +7,9 @@ public class Person {
 
     private final String birthDate;
 
-    private final HairColor hairColor;
+    private final String hairColor;
 
-    public Person(String name, String birthDate, HairColor hairColor) {
+    public Person(String name, String birthDate, String hairColor) {
 
         if (name != null) {
             this.name = name;
@@ -38,7 +38,7 @@ public class Person {
         return birthDate;
     }
 
-    public HairColor getHairColor() {
+    public String getHairColor() {
 
         return hairColor;
     }
