@@ -1,51 +1,28 @@
 package nl.multicode.model;
 
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
 
-    private final String name;
-
-    private final String birthDate;
-
-    private final HairColor hairColor;
-
-    public Person(String name, String birthDate, HairColor hairColor) {
-
-        if (name != null) {
-            this.name = name;
-        } else {
-            throw new IllegalArgumentException("name may not be null");
-        }
-        if (birthDate != null && !birthDate.isEmpty()) {
-            this.birthDate = birthDate;
-        } else {
-            throw new IllegalArgumentException("birthDate may not be null");
-        }
-        if (hairColor != null) {
-            this.hairColor = hairColor;
-        } else {
-            throw new IllegalArgumentException("hairColor may not be null");
-        }
-    }
-
-    public String getName() {
-
-        return name;
-    }
-
-    public String getBirthDate() {
-
-        return birthDate;
-    }
-
-    public HairColor getHairColor() {
-
-        return hairColor;
-    }
-
-    @Override
-    public String toString() {
-
-        return "Person(name=" + name + ", birthDate=" + birthDate + ", hair=" + hairColor + ")";
-    }
+    @NotEmpty(message = "name may not be empty")
+    private String name;
+    @Pattern(regexp = "^([0-2][0-9]|(3)[0-1])(-)(((0)[0-9])|((1)[0-2]))(-)\\d{4}$",
+            message = "date must be valid and have dd-mm-yyyy format")
+    private String birthDate;
+    @NotEmpty(message = "hairColor may not be empty")
+    private String hairColor;
 }

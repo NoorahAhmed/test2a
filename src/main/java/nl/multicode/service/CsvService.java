@@ -1,52 +1,54 @@
 package nl.multicode.service;
 
-import nl.multicode.map.LineToPersonMapper;
+import com.opencsv.CSVReader;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.HeaderColumnNameMappingStrategy;
+import lombok.RequiredArgsConstructor;
 import nl.multicode.model.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+@Validated
+@Service
+@RequiredArgsConstructor
 public class CsvService {
 
     private static final Logger log = LogManager.getLogger(CsvService.class);
-    private final LineToPersonMapper mapper;
-
-    public CsvService(LineToPersonMapper mapper) {
-
-        this.mapper = mapper;
-    }
 
     public List<Person> readPersonsCsv(String csvFile) {
 
         final var personList = new ArrayList<Person>();
-        File file = new File(csvFile);
-        if (file.exists()) {
-            try {
-                final BufferedReader br;
-                try (var fr = new FileReader(file)) {
-                    br = new BufferedReader(fr);
-                    String line;
-                    int lineCount = 0;
-                    while ((line = br.readLine()) != null) {
-                        if (lineCount > 0) {
-                            //MAP ONLY AFTER SKIPPING FIRST LINE
-                            final Person person = mapper.apply(line);
-                            personList.add(person);
-                        }
-                        lineCount++;
-                    }
-                }
-                br.close();
-            } catch (IOException ioe) {
-                log.error(ioe.getMessage());
-            }
+        CsvToBean<Person> csvToBean = getCsvToBean(csvFile);
+        Iterator<Person> personIterator = csvToBean.iterator();
+        while (personIterator.hasNext()) {
+            personList.add(personIterator.next());
         }
+
         return personList;
+    }
+
+    private static CsvToBean<Person> getCsvToBean(String csvFile) {
+
+        CsvToBean<Person> csvToBean = new CsvToBean<>();
+        try {
+            csvToBean.setCsvReader(new CSVReader(new BufferedReader(new FileReader(csvFile))));
+            final var mappingStrategy = new HeaderColumnNameMappingStrategy();
+            mappingStrategy.setType(Person.class);
+            csvToBean.setMappingStrategy(mappingStrategy);
+        } catch (FileNotFoundException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return csvToBean;
     }
 }

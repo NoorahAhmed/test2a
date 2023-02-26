@@ -1,46 +1,62 @@
 package nl.multicode.model;
 
+
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PersonTest {
+
+    private Validator validator;
+
+    @BeforeEach
+    public void setUp() {
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @Test
     void testToString() {
 
-        assertThat(new Person("Dude", "01-01-2001", HairColor.RED))
-                .hasToString("Person(name=Dude, birthDate=01-01-2001, hair=RED)");
+        assertThat(new Person("Dude", "01-01-2001", "RED"))
+                .hasToString("Person(name=Dude, birthDate=01-01-2001, hairColor=RED)");
     }
 
     @Test
     void testConstructorBadName() {
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            new Person(null, "01-01-2001", HairColor.RED);
-        }, "IllegalArgumentException was expected");
+        final var person = new Person(null, "01-01-2001", "RED");
 
-        assertThat(thrown.getMessage()).isEqualTo("name may not be null");
+        final var violations = validator.validate(person);
+
+        String message = violations.stream().toList().get(0).getMessage();
+        assertThat(message).isEqualTo("name may not be empty");
     }
 
     @Test
-    void testConstructorBadBirthDate() {
+    void testConstructorBadBirthdDte() {
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            new Person("name", null, HairColor.BRUNETTE);
-        }, "IllegalArgumentException was expected");
+        final var person = new Person("name", "41-01-1001", "RED");
 
-        assertThat(thrown.getMessage()).isEqualTo("birthDate may not be null");
+        final var violations = validator.validate(person);
+
+        String message = violations.stream().toList().get(0).getMessage();
+        assertThat(message).isEqualTo("date must be valid and have dd-mm-yyyy format");
     }
 
     @Test
     void testConstructorBadHairColor() {
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            new Person("name", "01-01-2001", null);
-        }, "IllegalArgumentException was expected");
+        final var person = new Person("name", "01-01-2001", null);
 
-        assertThat(thrown.getMessage()).isEqualTo("hairColor may not be null");
+        final var violations = validator.validate(person);
+
+        String message = violations.stream().toList().get(0).getMessage();
+        assertThat(message).isEqualTo("hairColor may not be empty");
     }
 }

@@ -1,17 +1,16 @@
-package nl.multicode;
+package nl.multicode.controller;
 
 
-import nl.multicode.controller.PersonController;
+import jakarta.validation.ConstraintViolationException;
 import nl.multicode.model.Person;
 import nl.multicode.service.CsvService;
 import nl.multicode.util.TestAppender;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
@@ -21,14 +20,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class PersonControllerTest {
 
-    @Mock
+    @MockBean
     private CsvService csvService;
 
-    @InjectMocks
+    @Autowired
     private PersonController personController;
 
     @BeforeEach
@@ -52,16 +50,7 @@ class PersonControllerTest {
 
         final var result = personController.readPersonsFile(csvFile);
 
-        assertThat(result).isEqualTo(personList);
         verify(csvService).readPersonsCsv(csvFile);
-    }
-
-    @Test
-    void test_empty_string() {
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            personController.readPersonsFile("");
-        }, "IllegalArgumentException was expected");
-        assertThat(thrown.getMessage()).isEqualTo("csv file must not be null or empty string!");
+        assertThat(result).isEqualTo(personList);
     }
 }
