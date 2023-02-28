@@ -1,23 +1,22 @@
 package nl.multicode.service;
 
-import nl.multicode.map.LineToPersonMapper;
-import nl.multicode.model.Person;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import nl.multicode.map.LineToPersonMapper;
+import nl.multicode.model.Person;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class CsvService {
+public class PersonCsvService {
 
-    private static final Logger log = LogManager.getLogger(CsvService.class);
+    private static final Logger log = LogManager.getLogger(PersonCsvService.class);
     private final LineToPersonMapper mapper;
 
-    public CsvService(LineToPersonMapper mapper) {
+    public PersonCsvService(LineToPersonMapper mapper) {
 
         this.mapper = mapper;
     }
