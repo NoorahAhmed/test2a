@@ -34,15 +34,15 @@
 
         <!-- JaCoCo Properties -->
         <jacoco.version>0.8.8</jacoco.version>
+        <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
         <sonar.host.url>
             http://localhost:9000
         </sonar.host.url>
-        <sonar.login>sayf</sonar.login>
-        <sonar.password>password</sonar.password>
-        <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+        <sonar.login>test</sonar.login>
+        <sonar.password>test</sonar.password>
         <opencsv.version>4.1</opencsv.version>
     </properties>
 
@@ -128,6 +128,11 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.7.0.1746</version>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
