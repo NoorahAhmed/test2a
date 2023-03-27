@@ -38,11 +38,12 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
+        <!-- If you want to connect to a sonarqube server then configure the parameters below in your environment variables -->
         <sonar.host.url>
-            http://localhost:9000
+            ${env.SONAR_URL}
         </sonar.host.url>
-        <sonar.login>test</sonar.login>
-        <sonar.password>test</sonar.password>
+        <sonar.login>${env.SONAR_LOGIN}</sonar.login>
+        <sonar.password>${env.SONAR_PASSWORD}</sonar.password>
         <opencsv.version>4.1</opencsv.version>
     </properties>
 
