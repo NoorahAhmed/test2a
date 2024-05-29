@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE trf-dependencies>
+
+<!--
+    Custom template configuration for Action BE.
+    This configuration overrides z_receipt_configuration_narrow, only for the below settings
+
+    Newest version on top, fill all columns if applicable.
+    Date        Version     Author       Topdesk       Jira     Description
+    09-03-2024  1.0         MS          Switzerland            Narrow receipt for Switzerland
+-->
+
+<trf-dependencies>
+
+    <!-- Body elements -->
+    <trf-variable name="$RECEIPT_PAYMENTS_SHOW_ROUNDING" value="{true}" /> <!-- CTCR19120181 -->
+    <trf-variable name="$RECEIPT_PAYMENTS_SHOW_ROUNDED_TOTAL" value="{true}" /> <!-- CTCR19120181 -->
+    <trf-variable name="$RECEIPT_STATE_HIDE_DOCUMENT_TYPE_LABEL" value="{list('z_b2c')}"/>
+    
+    <trf-variable name="$RECEIPT_BARCODE_SYMBOLOGY" value="qrcode" /> 
+    <trf-variable name="$RECEIPT_BARCODE_WIDTH" value="250" /> 
+    <trf-variable name="$RECEIPT_BARCODE_HEIGHT" value="250" />
+    <trf-variable name="$RECEIPT_SHOW_BARCODE_READABLE" value="{true}" /> 
+
+</trf-dependencies>
