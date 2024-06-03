@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE trf-dependencies>
+
+<!--
+    Custom template configuration for Action.
+
+    Newest version on top, fill all columns if applicable.
+    Date        Version     Author       Topdesk       Jira        Description
+    24-05-2024  3.19         SJAWAD       -             XV-20656    Add original invoice references to return ticket
+    30-01-2024  3.18        KHA/MEP      CTCR21120490  XV-14135    Brief description Return met bonnummer retour filiaal
+    22-09-2023  1.6         TKU          CTCR23070290  XV-17249    Remove cashiers name from receipt
+    05-06-2023  2.9         SLINDE       CTCR22100127  XV-16524    No label text when document type is z_b2c
+    22-02-2023  2.8         SGEIJN       CTCR22040358  XV-15928    Add support for a barcode specific to the short receipt.
+    15-02-2023  2.7         SGEIJN       CTCR22040358  XV-15876    Merge DEV and PRJ scripts, added parameters for the short receipt.
+    22-11-2021  2.6         TDI          CTCR21080673              Set quantity summary value true
+    18-10-2021  2.5         SNAGTZ                     XV-13710    Customize ticket template for Catalunya (spain)
+    26-03-2021  2.4         SNAGTZ                                 Added cz and pl gaia giftcards to mappings
+    18-08-2020  2.3         EOO          CTCR20070298  XV-11965    Add text cash receipt customer order    
+    10-04-2020  2.2         JLO          Italy                     Adding Italy configuration
+    06-02-2020  2.1         RDH          CTCR20010845              Making country specfic congig, for PL, AT and CZ
+    05-02-2020  2.0         RDH          CTCR19120181              Rounding on Cash and reconstruct the country specific configuration
+    01-10-2019  1.2         JLO                                    Aanpassing tbv FP3 (Czech / legislation)
+    27-08-2019  1.1         JLO                                    Aanpassing tbv FP2 (M4 release)
+    18-04-2018  1.0         JLO                                    Changing data 5.0 from copy 4.4
+    dd-mm-yyyy  0.9         ???                                    Initial version from 4.4
+-->
+
+<trf-dependencies>
+    <!--
+        =======================
+        Configurable parameters
+        =======================
+    -->
+    <!-- Generic parameters (used by multiple templates) -->
+    <trf-variable name="$RECEIPT_FORMAT_ARTICLE_CODE" value="0000000000000" />
+    <trf-variable name="$RECEIPT_INDENT" value="{integer(9)}" />
+    <trf-variable name="$SHORT_RECEIPT_INDENT" value="{integer(1)}" />
+    <trf-variable name="$RECEIPT_QUANTITY_WIDTH" value="{integer(9)}" />
+    <trf-variable name="$RECEIPT_AMOUNT_WIDTH" value="{integer(9)}" />
+    <trf-variable name="$RECEIPT_UNIT_WIDTH" value="{integer(9)}" />
+    <trf-variable name="$RECEIPT_ARTICLE_WIDTH" value="{integer(13)}" />
+    <trf-variable name="$RECEIPT_LINE_TAX_DETAILS_WIDTH" value="{integer(8)}" />
+    <trf-variable name="$RECEIPT_SHORT_LABEL_WIDTH" value="{integer(20)}" />
+    <trf-variable name="$RECEIPT_SHORT_VALUE_WIDTH" value="{integer(42)}" />
+    <!-- Bundle constants -->
+    <trf-variable name="$RECEIPT_BUNDLE_PACKAGE" value="com.crossverge.apps.pos.i18n" />
+    <trf-variable name="$RECEIPT_BUNDLE_PATH" value="template.z_receipt." /> 
+    <trf-variable name="$RECEIPT_NO_TAX_MARKER" value=" " />
+    <trf-variable name="$RECEIPT_COMPANY_LOGO" value="{$$RECEIPT_BUNDLE_PATH ++ 'ReceiptLogo'}" />
+    <!--<trf-variable name="$RECEIPT_DIVISION_LOGO" value="{$$RECEIPT_BUNDLE_PATH ++ 'division.' ++ {$document.attributes.division_code} ++ '.ReceiptLogo'}" /> -->
+    <!--<trf-variable name="$RECEIPT_STORE_LOGO" value="{$$RECEIPT_BUNDLE_PATH ++ 'store.' ++ {$document.attributes.location_code} ++ '.ReceiptLogo'}" /> -->
+    <trf-variable name="$ACTION_RECEIPT_HQ_PATH" value="{$$RECEIPT_BUNDLE_PATH ++ 'hq.' ++ {$HQ_TEXT} ++ '.'}" />
+   
+    <!-- Configuration of templates -->
+    <trf-variable name="$RECEIPT_SHOW_LOGO" value="{true}" />
+    <!-- Header elements -->
+    <trf-variable name="$RECEIPT_SHOW_HEADER_HQ_EXTRA" value="{true}"/>
+    <trf-variable name="$RECEIPT_SHOW_HEADER_HQ_TEXTS" value="{false}"/>
+    <trf-variable name="$RECEIPT_SHOW_RECEIPT_STATE" value="{true}"/>
+    <trf-variable name="$RECEIPT_SHOW_STORE_PARTNER" value="{true}"/>
+    <trf-variable name="$RECEIPT_SHOW_DOCUMENT_COMMENTS" value="{true}"/>
+    <trf-variable name="$RECEIPT_SHOW_STORE_HEADER" value="{true}"/>
+    <trf-variable name="$RECEIPT_SHOW_USER_HEADER" value="{false}"/>
+    <trf-variable name="$RECEIPT_SHOW_ADDITIONAL_PARTNERS" value="{true}"/>
+    <trf-variable name="$RECEIPT_SHOW_DOCUMENT_REFERENCES" value="{false}"/>
+    <!-- Body elements -->
+    <trf-variable name="$RECEIPT_SHOW_ARTICLES_NEW" value="{false}"/>
+    <trf-variable name="$RECEIPT_SHOW_TOTAL_AMOUNTS" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_PAYMENTS" value="{true}" />
+    <trf-variable name="$RECEIPT_PAYMENTS_SHOW_ROUNDING" value="{false}" />
+    <trf-variable name="$RECEIPT_PAYMENTS_SHOW_ROUNDED_TOTAL" value="{false}" /> <!-- CTCR19120181 -->
+    <trf-variable name="$RECEIPT_PAYMENTS_SHOW_VOIDED_PAYMENTS" value="{false}" />
+    <trf-variable name="$RECEIPT_PAYMENTS_SHOW_CARD_TYPES" value="{list('z_gaia_gift_card')}" />
+    <trf-variable name="$RECEIPT_SHOW_SAVINGS" value="{false}" />
+    <trf-variable name="$RECEIPT_SHOW_MESSAGES" value="{true}" />
+    <trf-variable name="$RECEIPT_VOUCHERS_SHOW_VOUCHERS_TITLE" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_TAX_SUMMARY" value="{true}" />
+    <trf-variable name="$RECEIPT_TAX_SUMMARY_SHOW_TAX_CLASS" value="{false}" />
+    <trf-variable name="$RECEIPT_TAX_SUMMARY_SHOW_TAX_DESCRIPTION" value="{false}" />
+    <!-- RECEIPT_TAX_SUMMARY_SHOW_TAX_NONTAXABLE_AMOUNT SUPPORTS "yes", "no", AND "auto" --> 
+    <trf-variable name="$RECEIPT_TAX_SUMMARY_SHOW_TAX_NONTAXABLE_AMOUNT" value="no" />
+    <trf-variable name="$RECEIPT_DISPLAY_FULL_DISCOUNT_PAYMENTS_AS_DISCOUNTS" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_QUANTITY_SUMMARY" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_DISCOUNT_SUMMARY" value="{false}" />
+    <trf-variable name="$RECEIPT_SHOW_CARD_SUMMARY" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_CARD_PAYMENTS_IN_CARD_SUMMARY" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_PAYMENT_TICKETS" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_REVISED_LINES_IN_ARTICLES" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_LINE_QUANTITY_DETAILS" value="{false}" />
+    <trf-variable name="$RECEIPT_SHOW_LINE_TAX_DETAILS" value="{false}" />
+    <trf-variable name="$RECEIPT_SHOW_REVISED_LINES_SEPARATELY" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_SIGNATURE" value="{false}"/>
+    <trf-variable name="$RECEIPT_SHOW_SIGNATURE_ON_COPY" value="{false}"/>
+     <!-- HQ headers -->
+    <trf-variable name="$RECEIPT_HQ_HEADERS" value="{list('Header')}" />
+        <!-- Footer elements -->
+    <trf-variable name="$RECEIPT_SHOW_FOOTER_TEXTS" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_FOOTER_HQ_EXTRA" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_FOOTER_HQ_TEXTS" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_BARCODE" value="{true}" />
+    <trf-variable name="$RECEIPT_SHOW_BARCODE_READABLE" value="{false}" /> <!-- CTCR20010845 from true to false, for CZ must it be true -->
+    <trf-variable name="$RECEIPT_SHOW_PAGE_FOOTER" value="{false}"/>
+    <trf-variable name="$RECEIPT_HQ_FOOTERS" value="{list('Footer')}" />
+
+    <!--
+        ==========
+        Constants
+        ==========
+    -->
+    <!--
+        ==============================================
+        Configurable receipt (sub)template parameters
+        This section is used to define the specific
+        sub template parameters. E.g. the elements
+        that should be shown or the alignments for
+        single columns etc.
+        ==============================================
+    -->
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_STATE -->
+    <trf-variable name="$RECEIPT_STATE_ALIGN" value="center"/>
+    <trf-variable name="$RECEIPT_STATE_ALIGN_DATE" value="left"/>
+    <trf-variable name="$RECEIPT_STATE_ALIGN_DOC_INFO" value="right"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_TRANSACTION_TYPE" value="{false}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DOCUMENT_STATUS" value="{true}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DOCUMENT_TITLE" value="{true}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DOCUMENT_COMPLETIONTIMESTAMP" value="{true}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DOCUMENT_ID" value="{true}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DOCUMENT_UID" value="{false}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_SECURITY_SEAL" value="{true}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DOCUMENT_TYPE" value="{true}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DOCUMENT_TYPE_ALWAYS" value="{false}"/>
+    <trf-variable name="$RECEIPT_STATE_HIDE_DOCUMENT_TYPE_LABEL" value="{list()}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_BACKEND_UID" value="{true}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DOCUMENT_REFERENCE" value="{false}"/>
+    <trf-variable name="$RECEIPT_STATE_SHOW_DELIVERY_DATE" value="{false}"/>
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_STORE_PARTNER -->
+    <trf-variable name="$RECEIPT_STORE_PARTNER_ALIGN" value="left"/>
+    <trf-variable name="$RECEIPT_STORE_PARTNER_ALIGN_FOOTER" value="center"/>
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_DOCUMENT_COMMENTS -->
+    <trf-variable name="$RECEIPT_DOCUMENT_COMMENTS_ALIGN" value="left"/>
+    <trf-variable name="$RECEIPT_DOCUMENT_CAPTURES_SHOW" value="{true}"/>
+    <trf-variable name="$RECEIPT_DOCUMENT_COMMENTS_SHOW" value="{true}"/>
+    <trf-variable name="$RECEIPT_DOCUMENT_COMMENTS_SHOW_TITLES" value="{true}"/>
+    <trf-variable name="$RECEIPT_DOCUMENT_COMMENTS_SHOW_SEPARATOR_LINE" value="{true}"/>
+    <trf-variable name="$RECEIPT_DOCUMENT_COMMENTS" value="{null}"/>
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_STORE_HEADER -->
+    <trf-variable name="$RECEIPT_STORE_HEADER_ALIGN" value="center"/>
+    <trf-variable name="$RECEIPT_SHOW_STORE_HEADER_SEPARATOR_LINE" value="{true}"/>
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_USER_HEADER -->
+    <trf-variable name="$RECEIPT_USER_HEADER_ALIGN" value="left"/>
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_ADDITIONAL_PARTNERS -->
+    <trf-variable name="$RECEIPT_ADDITIONAL_PARTNERS_ALIGN" value="left"/>
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_ARTICLES -->
+    <trf-variable name="$RECEIPT_ARTICLES_ALIGN" value="left"/>
+    <trf-variable name="$RECEIPT_ARTICLES_SHOW_SOURCEARTICLECODE" value="{false}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_ARTICLE_TEXT" value=""/>
+    <trf-variable name="$RECEIPT_ARTICLES_CAPTURES_SHOW" value="{false}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_COMMENTS" value="{null}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_COMMENTS_SHOW" value="{true}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_COMMENTS_SHOW_TITLES" value="{true}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_PROMOTION_FROM_FOR_SHOW" value="{true}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_REASONS_SHOW" value="{false}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_SHOW_UNIT_COLUMN" value="{false}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_SHOW_VOIDED_LINES" value="{false}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_SHOW_LINE_PRICE_BREAKDOWN" value="{false}"/>
+    <trf-variable name="$RECEIPT_ARTICLES_NO_DISCOUNT_ALLOWED_MARKER" value="" />
+    
+    <!--
+        This setting is used to print the article description in it's own column.
+        If set to false, the article code or source article code (e.g. EAN)
+        and the article description are printed in the same column
+    -->
+    <trf-variable name="$RECEIPT_ARTICLES_SHOW_DESCRIPTION_COLUMN" value="{false}"/>
+    
+    <!-- Configuration settings for template: TEMPLATE_TAX_SUMMARY -->
+    <trf-variable name="$RECEIPT_TAX_SUMMARY_DESCRIPTION_WIDTH" value="{integer(0)}"/> <!-- set to 0 for right align of tax columns -->
+    <trf-variable name="$RECEIPT_TAX_SUMMARY_AMOUNT_MAX_WIDTH" value="{integer(8)}"/>
+    
+    <!-- Configuration settings for template: TEMPLATE_CARD_SUMMARY -->
+    <trf-variable name="$RECEIPT_CUSTOM_BUNDLE_PATH" value="RECEIPT_BUNDLE_PATH++'CardTypes.'"/>  
+    <trf-variable name="$RECEIPT_CARD_SUMMARY_TEMPLATE_MAPPING" value="{map('z_lty_card', 'balance', 'z_edc', 'balance', 'z_gaia_gift_card', 'balance', 'z_gaia_gift_card_cz', 'balance', 'z_gaia_gift_card_pl', 'balance', 'z_gaia_gift_card_ch', 'balance')}"/>
+    <trf-variable name="$RECEIPT_CARD_SUMMARY_SPACER_WIDTH" value="{integer(8)}"/>
+    <trf-variable name="$RECEIPT_CARD_SUMMARY_LABEL_WIDTH" value="{integer(18)}"/>
+    <trf-variable name="$RECEIPT_CARD_SUMMARY_VALUE_WIDTH" value="{integer(15)}"/>
+    
+    <!-- Configuration settings for template: $TEMPLATE_MESSAGES -->
+    <trf-variable name="$RECEIPT_MESSAGES_ALIGN" value="left"/>
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_SIGNATURE -->
+    <trf-variable name="$RECEIPT_SIGNATURE_ALIGN" value="left"/>
+
+    <!-- Configuration settings for template: TEMPLATE_FOOTER_TEXTS -->
+    <trf-variable name="$RECEIPT_FOOTER_TEXTS_ALIGN" value="center"/>
+
+    <!-- Configuration settings for template: TEMPLATE_PAGE_FOOTER -->
+    <trf-variable name="$RECEIPT_PAGE_FOOTER_ALIGN" value="left"/>
+    
+    <!-- Configuration settings for template: TEMPLATE_BARCODE and TEMPLATE_SHORT_BARCODE -->
+    <trf-variable name="$RECEIPT_BARCODE_SYMBOLOGY" value="interleaved25" /> 
+    <trf-variable name="$RECEIPT_BARCODE_WIDTH" value="0" /> 
+    <trf-variable name="$RECEIPT_BARCODE_HEIGHT" value="0" />
+    <trf-variable name="$RECEIPT_SHORT_BARCODE_WIDTH" value="1000" /> 
+    <trf-variable name="$RECEIPT_SHORT_BARCODE_HEIGHT" value="1000" />
+    
+    <!-- Legal -->
+    <trf-variable name="$RECEIPT_LEGAL_SUMMARY_RECORD_TYPE_AT" value="{null}"/>
+    <trf-variable name="$RECEIPT_LEGAL_SUMMARY_RECORD_TYPE_CZ" value="{null}"/>
+    <trf-variable name="$RECEIPT_LEGAL_SUMMARY_RECORD_TYPE_IT" value="{null}" />
+    <trf-variable name="$ITALIAN_LEGAL_SUMMARY_BUNDLE_PATH" value="template.receipt.italian_legal_summary." />
+        
+     <!-- Generic settings for legal template (CZ, IT and DE) -->
+    <trf-variable name="$RECEIPT_LEGAL_SIGNATURE_DEFAULT_BARCODE_SYMBOLOGY" value="qrcode" />
+    <trf-variable name="$RECEIPT_LEGAL_SIGNATURE_DEFAULT_BARCODE_WIDTH" value="300" />
+    <trf-variable name="$RECEIPT_LEGAL_SIGNATURE_DEFAULT_BARCODE_HEIGHT" value="300" />
+
+       <!-- Configuration setting for template: Germany -->
+    <trf-variable name="$RECEIPT_LEGAL_SUMMARY_RECORD_TYPE_DE" value="Germany_v1.0" />
+    <!--<trf-variable name="$GERMAN_LEGAL_SUMMARY_BUNDLE_PATH" value="template.receipt.german_legal_summary." /> -->
+    <trf-variable name="$GERMAN_LEGAL_SUMMARY_BUNDLE_PATH" value="template.z_receipt.z_german_legal_summary." />
+    <trf-variable name="$RECEIPT_LEGAL_SIGNATURE_DE_BARCODE_SYMBOLOGY" value="qrcode" />
+    <trf-variable name="$RECEIPT_LEGAL_SIGNATURE_DE_BARCODE_WIDTH" value="250" />
+    <trf-variable name="$RECEIPT_LEGAL_SIGNATURE_DE_BARCODE_HEIGHT" value="250" />
+
+    <!-- Configuration settings for template: TEMPLATE_RECEIPT_SIGNATURE -->
+    <trf-variable name="$RECEIPT_SIGNATURE_DELIVERY_TERMS_TRANSACTION_TYPES" value="{list('zcl2001_m4', 'zcl2002_m4', 'zcl2001_es', 'zcl2002_es', 'zcl2011', 'zcl2012', 'zcl2013', 'zcl2021', 'zcl2023', 'zcl2018', 'zcl2019', 'zcl2024', 'zcl2025')}" />
+    
+    <trf-variable name="$ARTICLE_LANGUAGE" value="{$language}" />
+    <trf-variable name="$ARTICLE_FALLBACK_LANGUAGE" value="{$fallback_language}" />
+
+</trf-dependencies>

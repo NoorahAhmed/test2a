@@ -7,6 +7,7 @@
 
     Newest version on top, fill all columns if applicable.
     Date        Version     Author       Topdesk       Jira     Description
+    24-05-2024  1.1         SJAWAD       -             XV-20656 Add original invoice references to return ticket
     09-03-2024  1.0         MS          Switzerland            Narrow receipt for Switzerland
 -->
 
@@ -16,7 +17,8 @@
     <trf-variable name="$RECEIPT_PAYMENTS_SHOW_ROUNDING" value="{true}" /> <!-- CTCR19120181 -->
     <trf-variable name="$RECEIPT_PAYMENTS_SHOW_ROUNDED_TOTAL" value="{true}" /> <!-- CTCR19120181 -->
     <trf-variable name="$RECEIPT_STATE_HIDE_DOCUMENT_TYPE_LABEL" value="{list('z_b2c')}"/>
-    
+
+    <trf-variable name="$RECEIPT_SHOW_DOCUMENT_REFERENCES" value="{true}"/>
     <trf-variable name="$RECEIPT_BARCODE_SYMBOLOGY" value="qrcode" /> 
     <trf-variable name="$RECEIPT_BARCODE_WIDTH" value="250" /> 
     <trf-variable name="$RECEIPT_BARCODE_HEIGHT" value="250" />

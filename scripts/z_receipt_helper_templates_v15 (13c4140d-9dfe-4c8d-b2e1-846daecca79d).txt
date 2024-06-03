@@ -2,10 +2,11 @@
 <!DOCTYPE trf-dependencies>
 
 <!--
-    Custom helper template for Action: z_receipt_helper_templates_v14
+    Custom helper template for Action: z_receipt_helper_templates_v15
 
     Newest version on top, fill all columns if applicable.
     Date        Version     Author       Topdesk       Jira        Description
+    24-05-2024  3.22         SJAWAD       -             XV-20656 Add original invoice references to return ticket
     17-04-2024  3.21        EJACOBS                    XV-20569    Aantal artikelen on receipt are incorrect with return and "combi-bonnen"
     25-03-2024  3.20        MVROSS       CTCR23080097  XV-17884    Footer text Cancellation and Returns receipt customer order 2.0 not correct
     14-03-2024  3.19        MVROSS       CTCR23080348  XV-19901    Selling Set Deposit article > unclear receipt
@@ -681,6 +682,38 @@
                     </tr>
                 </tbody>
             </table>
+        </trf-if>
+    </trf-template>
+
+    <!--
+        =============================================
+        Original receipt references in return tickets
+        =============================================
+    -->
+    <trf-template name="$TEMPLATE_DOCUMENT_REFERENCES">
+        <trf-if test="{$$RECEIPT_SHOW_DOCUMENT_REFERENCES}">
+            <trf-variable name="referenced_documents" value="{getreferenceddocuments($document)}" />
+            <trf-variable name="referenced_ids" value="{set()}" />
+            <trf-foreach name="line" list="{$document.normalLines}">
+                <trf-if test="{isreturn($line)}">
+                    <!-- Determine legislation id of referenced document from line reference or legal summary -->
+                    <trf-variable name="referenced_id" value="{null}" />
+                    <trf-if test="{isset($line.backendReference)}">
+                        <trf-variable name="referenced_uid" value="{$line.backendReference.backendDocumentUid}" />
+                        <trf-variable name="referenced_document" value="{ifset($referenced_documents.($referenced_uid))}" />
+                        <trf-if test="{isset($referenced_document)}">
+                            <trf-variable name="referenced_id" value="{$referenced_document.documentTypeId}" />
+                        </trf-if>
+                    </trf-if>
+                    <!-- Add to the map together with return reason (if set) -->
+                    <trf-if test="{isset($referenced_id)}">
+                        <trf-variable name="referenced_ids" value="{$referenced_ids +! $referenced_id}" />
+                    </trf-if>
+                </trf-if>
+            </trf-foreach>
+            <trf-foreach name="referenced_id" list="{$referenced_ids}">
+                <p><trf-expression value="{posbundlestring($$RECEIPT_BUNDLE_PATH ++ 'RectifiedInvoice','en-xv')}: {$referenced_id}"/></p>
+            </trf-foreach>
         </trf-if>
     </trf-template>
 

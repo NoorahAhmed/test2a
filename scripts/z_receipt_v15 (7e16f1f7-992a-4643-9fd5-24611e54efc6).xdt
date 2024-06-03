@@ -9,6 +9,7 @@
 
     Newest version on top, fill all columns if applicable.
     Date        Version     Author       Topdesk       Jira     Description
+    24-05-2024  2.6         SJAWAD       -             XV-20656 Add original invoice references to return ticket  
     22-02-2023  2.5         SGEIJN       CTCR22040358  XV-15928 Add support for a barcode specific to the short receipt.
     15-02-2023  2.4         SGEIJN       CTCR22040358  XV-15876 Merge DEV and PRJ scripts, choose between full and short receipt.
     22-11-2021  2.3         TDI          CTCR21080673           Configuration quantity summary on receipt
@@ -128,10 +129,13 @@
         <sbody>
             <trf-apply template="$z_TEMPLATE_HEADER_TEXT"/>
             <trf-apply template="$z_TEMPLATE_HEADER_TEXT_HQ"/>
+
             <!-- Receipt document state, store information, user, partners etc. -->
             <trf-apply template="$z_TEMPLATE_RECEIPT_STATE"/>
             <!-- <trf-apply template="$TEMPLATE_RECEIPT_STORE_PARTNER"/> -->
             <trf-apply template="$z_TEMPLATE_RECEIPT_STORE_PARTNER"/>
+            <!-- Rectified invoice references for return invoice -->
+            <trf-apply template="$TEMPLATE_DOCUMENT_REFERENCES"/>
             <trf-apply template="$z_TEMPLATE_RECEIPT_USER_HEADER"/>
             <trf-apply template="$z_TEMPLATE_RECEIPT_ADD_INFO_DOC"/>
             <!-- <trf-apply template="$TEMPLATE_RECEIPT_STORE_HEADER"/> -->
