@@ -1,6 +1,8 @@
 package nl.multicode;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import nl.multicode.model.Animal;
 import nl.multicode.model.Cat;
 import nl.multicode.model.Chicken;
@@ -14,8 +16,6 @@ import org.apache.logging.log4j.Level;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest {
 
