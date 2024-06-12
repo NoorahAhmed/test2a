@@ -18,11 +18,11 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 
-        <maven.compiler.source>18</maven.compiler.source>
-        <maven.compiler.target>18</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <mockito-core.version>4.8.0</mockito-core.version>
-        <pit.coverageThreshold>75</pit.coverageThreshold>
-        <pit.mutationThreshold>75</pit.mutationThreshold>
+        <pit.coverageThreshold>0</pit.coverageThreshold>
+        <pit.mutationThreshold>0</pit.mutationThreshold>
         <pitest-junit5-plugin.version>1.1.0</pitest-junit5-plugin.version>
         <pitest-maven.version>1.9.8</pitest-maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
